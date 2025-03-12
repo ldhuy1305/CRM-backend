@@ -9,11 +9,12 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+
+import datetime
 import os
 from pathlib import Path
 
-from datetime import timedelta
-from src.utilities import config
+from utilities import config
 
 config.load()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -44,7 +45,6 @@ API_URL = os.getenv("API_URL")
 # SECURITY WARNING: don't run with debug turned on in production!
 
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -59,6 +59,8 @@ INSTALLED_APPS = [
     "rest_framework_swagger",
     "drf_yasg",
     "corsheaders",
+    "django_notification",
+    "django_filters",
     # user app
     "api",
 ]
@@ -92,8 +94,54 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "api.wsgi.application"
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 
+DJANGO_NOTIFICATION_API_FILTERSET_CLASS = (
+    "django_notification.api.filters.notification_filter.NotificationFilter"
+)
 
+# Swagger
+SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {
+        "Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"}
+    },
+}
+
+REST_FRAMEWORK = {
+    # Pagination
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 10000,
+    # JWT
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+    # Swagger
+    "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
+    "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.URLPathVersioning",
+    "DEFAULT_VERSION": "v1",
+    "ALLOWED_VERSIONS": [
+        "v1",
+    ],
+    "VERSION_PARAM": "version",
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(
+        minutes=int(os.getenv("ACCESS_TOKEN_LIFETIME"))
+    ),
+    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(
+        minutes=int(os.getenv("REFRESH_TOKEN_LIFETIME"))
+    ),
+    "ALGORITHM": "HS256",
+    "ROTATE_REFRESH_TOKENS": True,
+}
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -139,7 +187,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-VERSION_REG = 'v1'
+VERSION_REG = "v1"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/

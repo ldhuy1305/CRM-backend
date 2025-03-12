@@ -14,16 +14,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 import os
 
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.urls import path
-
+from django.urls import include, path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 
-from src.api import settings
+from api import settings
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -43,6 +43,11 @@ if settings.DEBUG:
         ),
     ]
 version_reg = settings.VERSION_REG
-urlpatterns = [
-    path("admin/", admin.site.urls),
-]+ staticfiles_urlpatterns()+ schema_api_docs
+urlpatterns = (
+    [
+        path("admin/", admin.site.urls),
+        path("notification/", include("django_notification.api.routers.notification")),
+    ]
+    + staticfiles_urlpatterns()
+    + schema_api_docs
+)
