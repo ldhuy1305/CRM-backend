@@ -23,8 +23,8 @@
     │   └── views.py
     ├── {other_app}                         - other app
     ├── utilities
-    ├── .env                                
-    ├── .env.example                        
+    ├── .env
+    ├── .env.example
     ├── .pre-commit-config.yaml             - fomatter code
     ├── cronjob.sh                          - cronjob file
     ├── manage.py                           - manager project
@@ -32,18 +32,12 @@
 ├── requirements.txt                        - package
 ```
 
-### Requirements
-
-- [Python](https://www.python.org/)
-- [Git](https://git-scm.com/downloads)
-- [Docker](https://store.docker.com/editions/community/docker-ce-desktop-mac) >= 17.12
-
 ## Installation
 
 Config environment for Django System in django .env file (`src/.env`)
 
 ```bash
-cd src2
+cd src
 cp .env.example .env
 ```
 ### Setup virtual envirement (venv) support project
@@ -96,31 +90,17 @@ source cronjob.sh
 # Using crontab -l to check cronjob
 crontab -l
 ```
-## Command
+
+## Formatter
 
 ```bash
-cd src2
-
-# create app
-python manage.py startapp app
-
-# create supper user
-python manage.py createsuperuser
-
-# make migrations
-python manage.py makemigrations
-
-# apply migrations
-python manage.py migrate
-
-# run server
-python manage.py runserver
+pre-commit run --all-files
 ```
 
 ## Command
 
 ```bash
-cd src2
+cd src
 
 # create app
 python manage.py startapp app
