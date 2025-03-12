@@ -19,7 +19,7 @@ import os
 
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.urls import include, path
+from django.urls import include, path, re_path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 
@@ -42,10 +42,11 @@ if settings.DEBUG:
             name="Schema Swagger UI",
         ),
     ]
-version_reg = settings.VERSION_REG
+ver = settings.VERSION_REG
 urlpatterns = (
     [
         path("admin/", admin.site.urls),
+        re_path(f"api/{ver}/users/", include("authentication.urls")),
         path("notification/", include("django_notification.api.routers.notification")),
     ]
     + staticfiles_urlpatterns()

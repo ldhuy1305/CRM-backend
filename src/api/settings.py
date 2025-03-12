@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     "django_filters",
     # user app
     "api",
+    "authentication"
 ]
 
 MIDDLEWARE = [
@@ -74,7 +75,14 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+AUTH_USER_MODEL = "authentication.User"
 
+VERSION = os.environ.get("VERSION", "v1")
+
+CORS_ALLOWED_ORIGINS = os.environ.get(
+    "CORS_ALLOWED_ORIGINS",
+    "http://localhost:3000",
+).split(",")
 ROOT_URLCONF = "api.urls"
 
 TEMPLATES = [
@@ -198,3 +206,16 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# minutes
+TOKEN_EXPIRE = int(os.getenv("TOKEN_EXPIRE", "3"))
+
+TOKEN_LENGTH = int(os.getenv("TOKEN_LENGTH", "6"))
+
+MAIL_EXPIRE = int(os.getenv("MAIL_EXPIRE", "30"))
+
+# days
+TWO_FA_EXPIRE = int(os.getenv("TWO_FA_EXPIRE", "30"))
+
+# times
+LOGIN_TIME = int(os.getenv("LOGIN_TIME", "5"))
