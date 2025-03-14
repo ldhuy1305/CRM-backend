@@ -15,8 +15,6 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-import os
-
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import include, path, re_path
@@ -27,7 +25,7 @@ from api import settings
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="AOC API Documents",
+        title="CRM API Documents",
         default_version="v1",
     ),
     public=True,
@@ -47,7 +45,8 @@ urlpatterns = (
     [
         path("admin/", admin.site.urls),
         re_path(f"api/{ver}/users/", include("authentication.urls")),
-        path("notification/", include("django_notification.api.routers.notification")),
+        re_path(f"api/{ver}/group/", include("group.urls")),
+        # re_path(f"api/{ver}/notification/", include("django_notification.api.routers.notification")),
     ]
     + staticfiles_urlpatterns()
     + schema_api_docs

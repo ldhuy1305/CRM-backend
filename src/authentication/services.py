@@ -2,11 +2,11 @@ import random
 import string
 from datetime import timedelta
 
-from api import settings
-from authentication.serializers import UserVerifySerializer
 from django.utils import timezone
 
+from api import settings
 from authentication.models import User
+from authentication.serializers import UserVerifySerializer
 
 
 def gen_verify_code(user: User):

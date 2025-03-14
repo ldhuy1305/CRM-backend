@@ -1,5 +1,5 @@
-from api import constants, settings
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.core.exceptions import BadRequest
 from django.core.validators import validate_email
 from django.utils import timezone
 from django.utils.encoding import smart_str
@@ -9,15 +9,9 @@ from rest_framework.exceptions import AuthenticationFailed, NotFound, Validation
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from api import constants, settings
+from authentication.models import User, UserVerifyCode
 from utilities.validate_password import validate_password
-
-from authentication.models import Role, User, UserVerifyCode
-
-
-class RoleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Role
-        fields = "__all__"
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -33,8 +27,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ListUserSerializer(serializers.ModelSerializer):
-    role_id = serializers.IntegerField(required=True)
-
     class Meta:
         model = User
         fields = (
@@ -45,7 +37,6 @@ class ListUserSerializer(serializers.ModelSerializer):
             "last_name",
             "address",
             "phone",
-            "role_id",
         )
         extra_kwargs = {
             "password": {"write_only": True},
@@ -53,8 +44,6 @@ class ListUserSerializer(serializers.ModelSerializer):
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    role_id = serializers.IntegerField(required=True)
-
     class Meta:
         model = User
         fields = (
@@ -64,21 +53,10 @@ class RegisterSerializer(serializers.ModelSerializer):
             "last_name",
             "address",
             "phone",
-            "role_id",
         )
         extra_kwargs = {
             "password": {"write_only": True},
         }
-
-    def validate(self, attrs):
-        role_id = attrs["role_id"]
-        try:
-            role = Role.objects.get(id=role_id)
-        except Role.DoesNotExist:
-            raise serializers.ValidationError(
-                {"role": "Role with this ID does not exist."}
-            )
-        return super().validate(attrs)
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
@@ -167,15 +145,15 @@ class LoginSerializer(serializers.ModelSerializer):
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
-            raise AuthenticationFailed("Invalid credentials, try again")
+            raise BadRequest("Invalid credentials, try again")
 
         if not user.check_password(password):
-            raise AuthenticationFailed("Invalid credentials, try again")
+            raise BadRequest("Invalid credentials, try again")
 
         if not user.is_verified:
-            raise AuthenticationFailed("Email is not verified")
+            raise BadRequest("Email is not verified")
         if not user:
-            raise AuthenticationFailed("Invalid credentials, try again")
+            raise BadRequest("Invalid credentials, try again")
 
         return super().validate(attrs)
 
@@ -196,6 +174,10 @@ class LogoutSerializer(serializers.Serializer):
     refresh = serializers.CharField()
 
     default_error_message = {"message": "Token is expired or invalid"}
+
+    def __init__(self, **kwargs):
+        self.token = None
+        super().__init__(**kwargs)
 
     def validate(self, attrs):
         self.token = attrs["refresh"]

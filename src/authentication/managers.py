@@ -1,6 +1,8 @@
 from cfgv import ValidationError
 from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.auth.models import Group
 from django.core.validators import validate_email
+
 from utilities.validate_password import validate_password
 
 
@@ -22,7 +24,6 @@ class UserManager(BaseUserManager):
         address,
         phone,
         password,
-        role_id,
     ):
         if email:
             email = self.normalize_email(email)
@@ -42,7 +43,6 @@ class UserManager(BaseUserManager):
             email=email,
             address=address,
             phone=phone,
-            role_id=role_id,
         )
         user.set_password(password)
         user.save()
@@ -63,11 +63,15 @@ class UserManager(BaseUserManager):
             address="",
             phone="",
             password=password,
-            role_id=1,
         )
         user.is_superuser = True
         user.is_staff = True
         user.is_verified = True
         user.set_password(password)
         user.save()
+
+        # Add to "Super Admin" group
+        group, _ = Group.objects.get_or_create(name="Super Admin")
+        user.groups.add(group)
+
         return user

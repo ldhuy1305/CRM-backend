@@ -105,14 +105,17 @@ cd src
 # create app
 python manage.py startapp app
 
-# create supper user
-python manage.py createsuperuser
-
 # make migrations
 python manage.py makemigrations
 
 # apply migrations
 python manage.py migrate
+
+# setting root group
+python manage.py create_root_group
+
+# create supper user
+python manage.py createsuperuser
 
 # run server
 python manage.py runserver

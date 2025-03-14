@@ -1,20 +1,11 @@
 # Create your models here.
-from .managers import UserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from api.common import BaseModel
 
-
-class Role(BaseModel):
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        db_table = "role"
+from .managers import UserManager
 
 
 class User(AbstractBaseUser, PermissionsMixin, BaseModel):
@@ -27,14 +18,6 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     is_verified = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
-    role = models.ForeignKey(
-        Role,
-        to_field="id",
-        related_name="role",
-        on_delete=models.DO_NOTHING,
-        null=True,
-        blank=True,
-    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
@@ -51,7 +34,6 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
         refresh = RefreshToken.for_user(self)
         refresh["username"] = self.username
         refresh["email"] = self.email
-        refresh["role_id"] = self.role_id
 
         return {
             "refresh": str(refresh),
