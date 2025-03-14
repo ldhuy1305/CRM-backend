@@ -1,6 +1,4 @@
-from django.urls import include, path
-from django.urls import re_path as url
-from django.views.generic import RedirectView
+from django.urls import path
 from rest_framework.routers import SimpleRouter
 from rest_framework_simplejwt.views import TokenRefreshView
 

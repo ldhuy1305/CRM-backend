@@ -2,27 +2,31 @@ import json
 from base64 import urlsafe_b64decode, urlsafe_b64encode
 from datetime import datetime, timedelta
 
-from api import constants, settings
-from api.constants import UserRoleEnum
-from authentication.services import gen_verify_code
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponseRedirect
 from django.utils.encoding import smart_bytes, smart_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics, status, views, viewsets
 from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+
+from api import constants, settings
+from api.constants import UserRoleEnum
+from authentication.services import gen_verify_code
 from utilities.email.mailer import (
     send_password_reset_email,
     send_verify_email,
     send_verify_login,
 )
+from utilities.permissions.custom_permissions import IsAuthenticated, IsSuperAdmin
 
 from .models import User
 from .serializers import (
     ChangePasswordSerializer,
+    ListUserSerializer,
     LoginSerializer,
     LogoutSerializer,
     RegisterSerializer,
@@ -30,19 +34,20 @@ from .serializers import (
     SetNewPasswordSerializer,
     UserSerializer,
     VerifyCodeSerializer,
-    VerifyEmailSerializer, ListUserSerializer,
+    VerifyEmailSerializer,
 )
-from utilities.permissions.custom_permissions import IsAdmin, IsAuthenticated
-
 
 # Create your views here.
 
 
 class UserViewSet(viewsets.ModelViewSet):
+    http_method_names = ["get", "post", "put", "delete"]
+
     def get_permissions(self):
         if self.action in ["create", "destroy"]:
-            return [IsAdmin()]
+            return [IsSuperAdmin()]
         return [IsAuthenticated()]
+
     def get_serializer_class(self, *args, **kwargs):
         if self.action in ["create", "retrieve"]:
             return RegisterSerializer
@@ -50,7 +55,6 @@ class UserViewSet(viewsets.ModelViewSet):
             return ListUserSerializer
         if self.action == "update":
             return UserSerializer
-        return super().get_serializer(*args, **kwargs)
 
     def get_queryset(self):
         queryset = User.objects.all()
@@ -138,14 +142,21 @@ class VerifyEmailView(generics.GenericAPIView):
 class LoginAPIView(views.APIView):
     serializer_class = LoginSerializer
 
+    @swagger_auto_schema(request_body=LoginSerializer)
     def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(
+            data=request.data, context={"request": request}
+        )
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         try:
             user = User.objects.get(email=request.data["email"])
         except User.DoesNotExist:
             raise NotFound("Invalid email")
-        if not user.last_login and user.role_id in [UserRoleEnum.MARKETING.value, UserRoleEnum.SALES.value]:
+        if not user.last_login and user.role_id in [
+            UserRoleEnum.MARKETING.value,
+            UserRoleEnum.SALES.value,
+        ]:
             verify_code = gen_verify_code(user)
 
             send_verify_login(user, verify_code)

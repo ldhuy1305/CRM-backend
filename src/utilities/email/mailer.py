@@ -1,7 +1,8 @@
-from api import settings
-from authentication.models import User, UserVerifyCode
 from django.core.mail import EmailMultiAlternatives, send_mail
 from django.template.loader import render_to_string
+
+from api import settings
+from authentication.models import User, UserVerifyCode
 
 
 def _send_mail(subject, template, emails, merge_data):
@@ -17,7 +18,9 @@ def _send_mail(subject, template, emails, merge_data):
 def send_verify_email(user: User, url):
     merge_data = {"full_name": user.get_full_name(), "url": url}
     subject = "Chào mừng đến với chúng tôi"
-    _send_mail(subject, "emails/templates/verify_sign_up.html", [user.email], merge_data)
+    _send_mail(
+        subject, "emails/templates/verify_sign_up.html", [user.email], merge_data
+    )
     return True
 
 
@@ -55,7 +58,9 @@ def send_appointment_notification(user, appointment):
     subject = "Xác nhận đặt lịch hẹn thành công"
     merge_data = {
         "full_name": user.get_full_name(),
-        "appointment_date": appointment.appointment_date.strftime("%d-%m-%Y vào lúc %H:%M"),
+        "appointment_date": appointment.appointment_date.strftime(
+            "%d-%m-%Y vào lúc %H:%M"
+        ),
         "doctor_name": appointment.doctor.user.get_full_name(),
         "status": "Đã thanh toán",
     }

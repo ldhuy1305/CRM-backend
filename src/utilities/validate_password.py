@@ -1,7 +1,8 @@
 import re
 
-from api import constants
 from rest_framework.exceptions import ValidationError
+
+from api import constants
 
 
 def validate_password(password: str):
