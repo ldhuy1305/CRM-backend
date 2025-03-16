@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.exceptions import BadRequest
 from django.core.validators import validate_email
@@ -44,35 +45,37 @@ class ListUserSerializer(serializers.ModelSerializer):
 
 
 class RegisterSerializer(serializers.ModelSerializer):
+    group_permission = serializers.IntegerField(write_only=True)
+
     class Meta:
         model = User
         fields = (
             "email",
-            "password",
             "first_name",
             "last_name",
-            "address",
-            "phone",
+            "group_permission",
         )
         extra_kwargs = {
             "password": {"write_only": True},
         }
 
     def create(self, validated_data):
+        group_permission_id = validated_data.pop("group_permission", None)
         user = User.objects.create_user(**validated_data)
+        Group.objects.get(id=group_permission_id).user_set.add(user)
         user.save()
         return user
 
 
-class VerifyEmailSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(max_length=255, min_length=3, write_only=True)
+class EmailSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(max_length=255, min_length=3, read_only=True)
     expired_at = serializers.DateTimeField(
-        write_only=True, input_formats=[constants.FULL_DAY_FORMAT]
+        read_only=True, input_formats=[constants.FULL_DAY_FORMAT]
     )
 
     class Meta:
         model = User
-        fields = ["email", "expired_at"]
+        fields = ["email", "expired_at", "password"]
 
     def validate(self, attrs):
 
@@ -82,6 +85,25 @@ class VerifyEmailSerializer(serializers.ModelSerializer):
 
         try:
             user = User.objects.get(email=attrs["email"])
+            user.password_validator(attrs["password"])
+            user.set_password(attrs["password"])
+            user.is_verified = True
+            user.save()
+        except User.DoesNotExist:
+            raise NotFound("User does not exist.")
+
+        return super().validate(attrs)
+
+
+class PasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(max_length=255, min_length=3)
+
+    def validate(self, attrs):
+        try:
+            email = self.context.get("email")
+            user = User.objects.get(email=email)
+            validate_password(attrs["password"])
+            user.set_password(attrs["password"])
             user.is_verified = True
             user.save()
         except User.DoesNotExist:
@@ -145,10 +167,10 @@ class LoginSerializer(serializers.ModelSerializer):
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
-            raise BadRequest("Invalid credentials, try again")
+            raise BadRequest("Invalid email, try again")
 
         if not user.check_password(password):
-            raise BadRequest("Invalid credentials, try again")
+            raise BadRequest("Invalid password, try again")
 
         if not user.is_verified:
             raise BadRequest("Email is not verified")

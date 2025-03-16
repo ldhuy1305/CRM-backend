@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CRM Invitation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .email-container {
+            width: 600px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px #ddd;
+            margin: auto;
+        }
+        .email-header {
+            border-bottom: 3px solid #d9534f;
+            padding-bottom: 10px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .email-content {
+            padding: 20px;
+        }
+        .email-link {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .email-box {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">CRM</div>
+        <div class="email-content">
+            <p>Hello {{ full_name }},</p>
+            <p>You are invited to join <strong> UniBeam CRM </strong> account.</p>
+            <p><a href="{{ url }}" class="email-link">Join Now!</a></p>
+            <p>If the above link does not work, please copy and paste the following address into your browser:</p>
+            <p class="email-box">
+                <a href="{{ url }}" class="email-link">
+                   {{url }}
+                </a>
+            </p>
+            <p>Regards,</p>
+            <p>UniBeam</p>
+        </div>
+    </div>
+</body>
+</html>

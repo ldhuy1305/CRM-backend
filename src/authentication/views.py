@@ -1,6 +1,7 @@
 import json
 from base64 import urlsafe_b64decode, urlsafe_b64encode
 from datetime import datetime, timedelta
+from lib2to3.fixes.fix_input import context
 
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.sites.shortcuts import get_current_site
@@ -17,8 +18,8 @@ from api import constants, settings
 from api.constants import UserRoleEnum
 from authentication.services import gen_verify_code
 from utilities.email.mailer import (
+    send_invited_email,
     send_password_reset_email,
-    send_verify_email,
     send_verify_login,
 )
 from utilities.permissions.custom_permissions import IsAuthenticated, IsSuperAdmin
@@ -29,12 +30,12 @@ from .serializers import (
     ListUserSerializer,
     LoginSerializer,
     LogoutSerializer,
+    PasswordSerializer,
     RegisterSerializer,
     ResetPasswordRequestSerializer,
     SetNewPasswordSerializer,
     UserSerializer,
     VerifyCodeSerializer,
-    VerifyEmailSerializer,
 )
 
 # Create your views here.
@@ -70,7 +71,26 @@ class UserViewSet(viewsets.ModelViewSet):
         data = request.data
         serializer = self.get_serializer(data=data, context={"user": request.user})
         serializer.is_valid(raise_exception=True)
-        return Response(serializer, status=status.HTTP_201_CREATED)
+
+        user = serializer.save()
+        user_data = serializer.data
+
+        user_data["id"] = user.id
+        data = {
+            "email": user.email,
+            "expired_at": (
+                datetime.now() + timedelta(minutes=settings.MAIL_EXPIRE)
+            ).strftime(constants.FULL_DAY_FORMAT),
+        }
+        json_str = json.dumps(data)
+        email_encode = urlsafe_b64encode(json_str.encode()).decode("utf-8")
+
+        url = f"{settings.WEBSITE_URL}/invited-email?p={email_encode}"
+
+        send_invited_email(user, url)
+        return Response(
+            {"user": user_data, "code": email_encode}, status=status.HTTP_200_OK
+        )
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -91,52 +111,24 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class RegisterUserView(generics.GenericAPIView):
-    serializer_class = RegisterSerializer
-
-    def post(self, request, *args, **kwargs):
-        request_data = request.data
-        serializer = self.serializer_class(data=request_data)
-        serializer.is_valid(raise_exception=True)
-
-        user = serializer.save()
-        user_data = serializer.data
-
-        user_data["id"] = user.id
-        data = {
-            "email": user.email,
-            "expired_at": (
-                datetime.now() + timedelta(minutes=settings.MAIL_EXPIRE)
-            ).strftime(constants.FULL_DAY_FORMAT),
-        }
-        json_str = json.dumps(data)
-        email_encode = urlsafe_b64encode(json_str.encode()).decode("utf-8")
-
-        url = f"{settings.WEBSITE_URL}/verify-email?p={email_encode}"
-
-        send_verify_email(user, url)
-        return Response(
-            {"user": user_data, "code": email_encode}, status=status.HTTP_201_CREATED
-        )
-
-
-class VerifyEmailView(generics.GenericAPIView):
-    serializer_class = VerifyEmailSerializer
+class AddPasswordView(generics.GenericAPIView):
+    serializer_class = PasswordSerializer
 
     def post(self, request, *args, **kwargs):
         params = request.query_params
         if (encoded_data := params.get("p", None)) is None:
             raise NotFound("Parameter 'p' is missing.")
-
         try:
             decoded_data = urlsafe_b64decode(encoded_data).decode("utf-8")
             data = json.loads(decoded_data)
-            serializer = self.serializer_class(data=data)
+            serializer = self.serializer_class(
+                data=request.data, context={"email": data.get("email", None)}
+            )
             serializer.is_valid(raise_exception=True)
         except (ValueError, json.JSONDecodeError):
             raise NotFound("Invalid data provided.")
 
-        return Response({"message": "User is activated"}, status=status.HTTP_200_OK)
+        return Response({"message": "User is created"}, status=status.HTTP_201_CREATED)
 
 
 class LoginAPIView(views.APIView):
@@ -153,27 +145,24 @@ class LoginAPIView(views.APIView):
             user = User.objects.get(email=request.data["email"])
         except User.DoesNotExist:
             raise NotFound("Invalid email")
-        if not user.last_login and user.role_id in [
-            UserRoleEnum.MARKETING.value,
-            UserRoleEnum.SALES.value,
-        ]:
-            verify_code = gen_verify_code(user)
-
-            send_verify_login(user, verify_code)
-
-            return Response(
-                {
-                    "is_send_code": True,
-                    "message": "Send code verify for mail success",
-                },
-                status=status.HTTP_200_OK,
-            )
-        else:
-            refresh = user.tokens()
-            return Response(
-                {"is_send_code": False, "message": "Login successful", **refresh},
-                status=status.HTTP_200_OK,
-            )
+        # if not user.last_login:
+        #     verify_code = gen_verify_code(user)
+        #
+        #     send_verify_login(user, verify_code)
+        #
+        #     return Response(
+        #         {
+        #             "is_send_code": True,
+        #             "message": "Send code verify for mail success",
+        #         },
+        #         status=status.HTTP_200_OK,
+        #     )
+        # else:
+        refresh = user.tokens()
+        return Response(
+            {"is_send_code": False, "message": "Login successful", **refresh},
+            status=status.HTTP_200_OK,
+        )
 
 
 class VerifyCodeAPIView(views.APIView):

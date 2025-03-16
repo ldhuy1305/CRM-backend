@@ -21,20 +21,15 @@ class UserManager(BaseUserManager):
         first_name,
         last_name,
         email,
-        address,
-        phone,
-        password,
+        address=None,
+        phone=None,
+        password=None,
     ):
         if email:
             email = self.normalize_email(email)
             self.email_validator(email)
         else:
             raise ValueError("Users must have a mail")
-
-        if password:
-            self.password_validator(password)
-        else:
-            raise ValueError("Users must have a password")
 
         user = self.model(
             username=email,
@@ -44,7 +39,9 @@ class UserManager(BaseUserManager):
             address=address,
             phone=phone,
         )
-        user.set_password(password)
+        if password:
+            self.password_validator(password)
+            user.set_password(password)
         user.save()
         return user
 

@@ -1,27 +1,24 @@
-from django.urls import path
+from django.urls import include, path, re_path
 from rest_framework.routers import SimpleRouter
 from rest_framework_simplejwt.views import TokenRefreshView
 
 from .views import (
+    AddPasswordView,
     ChangePasswordAPIView,
     LoginAPIView,
     LogoutAPIView,
     PasswordTokenCheckAPI,
-    RegisterUserView,
     ResendCodeAPIView,
     ResetPasswordAPIView,
     SetNewPasswordAPIView,
     UserViewSet,
     VerifyCodeAPIView,
-    VerifyEmailView,
 )
 
 router = SimpleRouter()
-router.register(r"", UserViewSet, "auth")
+router.register(r"", UserViewSet, "users")
 
 urlpatterns = [
-    path("register/", RegisterUserView.as_view(), name="register"),
-    path("verify_email/", VerifyEmailView.as_view(), name="verify_email"),
     path("login/", LoginAPIView.as_view(), name="login"),
     path("login/verify_code", VerifyCodeAPIView.as_view(), name="verify_code"),
     path("login/resend_code", ResendCodeAPIView.as_view(), name="resend_code"),

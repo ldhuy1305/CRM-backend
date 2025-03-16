@@ -2,6 +2,9 @@ from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from rest_framework import serializers
 
+from authentication.models import User
+from authentication.serializers import UserSerializer
+
 
 class ContentTypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,10 +22,15 @@ class PermissionSerializer(serializers.ModelSerializer):
 
 class GroupDetailSerializer(serializers.ModelSerializer):
     permissions = PermissionSerializer(many=True, read_only=True)
+    users = serializers.SerializerMethodField()
 
     class Meta:
         model = Group
-        fields = ["id", "name", "permissions"]
+        fields = ["id", "name", "permissions", "users"]
+
+    def get_users(self, obj):
+        users = obj.user_set.all()
+        return UserSerializer(users, many=True).data
 
 
 class GroupSerializer(serializers.Serializer):
