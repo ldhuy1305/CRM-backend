@@ -44,8 +44,9 @@ ver = settings.VERSION_REG
 urlpatterns = (
     [
         path("admin/", admin.site.urls),
-        re_path(f"api/{ver}/users/", include("authentication.urls")),
+        re_path(f"api/{ver}/auth/", include("authentication.urls")),
         re_path(f"api/{ver}/group/", include("group.urls")),
+        re_path(f"api/{ver}/users/", include("authentication.user_urls")),
         # re_path(f"api/{ver}/notification/", include("django_notification.api.routers.notification")),
     ]
     + staticfiles_urlpatterns()
