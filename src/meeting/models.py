@@ -5,7 +5,6 @@ from authentication.models import User
 from contact.models import Contact
 from lead.models import Lead
 
-
 # Create your models here.
 
 

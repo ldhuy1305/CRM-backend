@@ -48,7 +48,6 @@ class UserManager(BaseUserManager):
     def create_superuser(
         self,
         email,
-        username=None,
         password=None,
     ):
         if password is None:
@@ -67,8 +66,8 @@ class UserManager(BaseUserManager):
         user.set_password(password)
         user.save()
 
-        # Add to "Super Admin" group
-        group, _ = Group.objects.get_or_create(name="Super Admin")
+        # Add to "Admin" group
+        group, _ = Group.objects.get_or_create(name="Admin")
         user.groups.add(group)
 
         return user

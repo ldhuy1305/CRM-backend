@@ -9,13 +9,25 @@ from lead.models import LeadSource
 
 class Contact(models.Model):
     contact_owner = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, blank=True, related_name="owned_contacts"
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="owned_contacts",
     )
     lead_source = models.ForeignKey(
-        LeadSource, on_delete=models.SET_NULL, null=True, blank=True, related_name="contacts"
+        LeadSource,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="contacts",
     )
     account = models.ForeignKey(
-        Account, on_delete=models.SET_NULL, null=True, blank=True, related_name="contacts"
+        Account,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="contacts",
     )
 
     name = models.CharField(max_length=255)
@@ -35,5 +47,5 @@ class Contact(models.Model):
     description = models.TextField(blank=True, null=True)
 
     class Meta:
-        ordering = ['-id']
-        db_table = 'contact'
+        ordering = ["-id"]
+        db_table = "contact"

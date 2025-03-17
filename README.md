@@ -111,8 +111,8 @@ python manage.py makemigrations
 # apply migrations
 python manage.py migrate
 
-# setting root group
-python manage.py create_root_group
+# create master data group permission
+python manage.py create_group_permission
 
 # create supper user
 python manage.py createsuperuser

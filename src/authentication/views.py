@@ -1,7 +1,6 @@
 import json
 from base64 import urlsafe_b64decode, urlsafe_b64encode
 from datetime import datetime, timedelta
-from lib2to3.fixes.fix_input import context
 
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.sites.shortcuts import get_current_site
@@ -15,14 +14,13 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
 from api import constants, settings
-from api.constants import UserRoleEnum
 from authentication.services import gen_verify_code
 from utilities.email.mailer import (
     send_invited_email,
     send_password_reset_email,
     send_verify_login,
 )
-from utilities.permissions.custom_permissions import IsAuthenticated, IsSuperAdmin
+from utilities.permissions.custom_permissions import IsAdmin, IsAuthenticated
 
 from .models import User
 from .serializers import (
@@ -46,7 +44,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action in ["create", "destroy"]:
-            return [IsSuperAdmin()]
+            return [IsAdmin()]
         return [IsAuthenticated()]
 
     def get_serializer_class(self, *args, **kwargs):
