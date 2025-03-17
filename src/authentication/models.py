@@ -3,18 +3,20 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from api.common import BaseModel
+from api import settings
+from api.common import TimestampedModel
 
 from .managers import UserManager
 
 
-class User(AbstractBaseUser, PermissionsMixin, BaseModel):
+class User(AbstractBaseUser, PermissionsMixin, TimestampedModel):
     username = models.CharField(max_length=255, unique=True)
     email = models.EmailField(unique=True, db_index=True)
     first_name = models.CharField(max_length=255, blank=True, null=True)
     last_name = models.CharField(max_length=255, blank=True, null=True)
     phone = models.CharField(max_length=15, blank=True, null=True)
     address = models.CharField(max_length=255, blank=True, null=True)
+    avatar = models.URLField(blank=True, null=True, default=settings.DEFAULT_AVATAR)
     is_verified = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
@@ -52,7 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
         db_table = "user"
 
 
-class UserVerifyCode(BaseModel):
+class UserVerifyCode(TimestampedModel):
     id = models.BigAutoField(primary_key=True)
     code = models.CharField(max_length=8)
     expired_at = models.DateTimeField()
