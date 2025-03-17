@@ -11,20 +11,20 @@ from lead.models import Lead
 
 class CallPurpose(BaseNameModel):
     class Meta:
-        ordering = ['-id']
-        db_table = 'call_purpose'
+        ordering = ["-id"]
+        db_table = "call_purpose"
 
 
 class CallResult(BaseNameModel):
     class Meta:
-        ordering = ['-id']
-        db_table = 'call_result'
+        ordering = ["-id"]
+        db_table = "call_result"
 
 
 class CallType(BaseNameModel):
     class Meta:
-        ordering = ['-id']
-        db_table = 'call_type'
+        ordering = ["-id"]
+        db_table = "call_type"
 
 
 class Call(models.Model):
@@ -32,10 +32,18 @@ class Call(models.Model):
         User, on_delete=models.SET_NULL, null=True, blank=True, related_name="calls"
     )
     call_purpose = models.ForeignKey(
-        CallPurpose, on_delete=models.SET_NULL, null=True, blank=True, related_name="calls"
+        CallPurpose,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="calls",
     )
     call_result = models.ForeignKey(
-        CallResult, on_delete=models.SET_NULL, null=True, blank=True, related_name="calls"
+        CallResult,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="calls",
     )
     call_type = models.ForeignKey(
         CallType, on_delete=models.SET_NULL, null=True, blank=True, related_name="calls"
@@ -60,6 +68,6 @@ class Call(models.Model):
     duration = models.IntegerField()
 
     class Meta:
-        ordering = ['-id']
-        db_table = 'call'
-        app_label = 'call'
+        ordering = ["-id"]
+        db_table = "call"
+        app_label = "call"

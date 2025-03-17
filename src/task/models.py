@@ -8,7 +8,6 @@ from contact.models import Contact
 from deal.models import Deal
 from lead.models import Lead
 
-
 # Create your models here.
 
 

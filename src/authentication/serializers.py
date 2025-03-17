@@ -102,6 +102,8 @@ class PasswordSerializer(serializers.Serializer):
         try:
             email = self.context.get("email")
             user = User.objects.get(email=email)
+            if user.password:
+                raise ValidationError("Password is already existed.")
             validate_password(attrs["password"])
             user.set_password(attrs["password"])
             user.is_verified = True

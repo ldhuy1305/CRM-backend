@@ -4,7 +4,6 @@ from api import settings
 from api.common import BaseModel, BaseNameModel, TimestampedModel
 from authentication.models import User
 
-
 # Create your models here.
 
 
