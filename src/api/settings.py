@@ -64,6 +64,18 @@ INSTALLED_APPS = [
     # user app
     "authentication",
     "group",
+    "account",
+    "call",
+    "campaign",
+    "campaign_target",
+    "contact",
+    "deal",
+    "lead",
+    "meeting",
+    "note",
+    "stage_history",
+    "tag_item",
+    "task",
 ]
 
 MIDDLEWARE = [
@@ -80,7 +92,7 @@ MIDDLEWARE = [
 
 AUTH_USER_MODEL = "authentication.User"
 
-VERSION = os.environ.get("VERSION", "v1")
+VERSION_REG = os.environ.get("VERSION", "v1")
 
 CORS_ALLOWED_ORIGINS = os.environ.get(
     "CORS_ALLOWED_ORIGINS",
@@ -206,6 +218,6 @@ TWO_FA_EXPIRE = int(os.getenv("TWO_FA_EXPIRE", "30"))
 # times
 LOGIN_TIME = int(os.getenv("LOGIN_TIME", "5"))
 
-VERSION_REG = os.getenv("VERSION_REG", "v1")
-
 CORS_ALLOW_ALL_ORIGINS = True
+
+DEFAULT_AVATAR = os.getenv("DEFAULT_AVATAR", "")
