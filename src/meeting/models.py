@@ -1,7 +1,7 @@
 from django.db import models
 
-from api.common import BaseModel, TimestampedModel
 from authentication.models import User
+from common.models import BaseModel, TimestampedModel
 from contact.models import Contact
 from lead.models import Lead
 

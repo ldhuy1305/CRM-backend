@@ -1,10 +1,9 @@
 # Create your models here.
 from django.db import models
 
-from api.common import BaseModel, BaseNameModel, TimestampedModel
 from authentication.models import User
+from common.models import BaseModel, BaseNameModel, TimestampedModel
 from contact.models import Contact
-from lead.models import Lead
 
 
 class CampaignType(BaseNameModel):

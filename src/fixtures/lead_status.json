@@ -1,0 +1,51 @@
+[
+  {
+    "model": "lead.leadstatus",
+    "pk": 1,
+    "fields": {
+      "name": "New"
+    }
+  },
+  {
+    "model": "lead.leadstatus",
+    "pk": 2,
+    "fields": {
+      "name": "Contacted"
+    }
+  },
+  {
+    "model": "lead.leadstatus",
+    "pk": 3,
+    "fields": {
+      "name": "Qualified"
+    }
+  },
+  {
+    "model": "lead.leadstatus",
+    "pk": 4,
+    "fields": {
+      "name": "Proposal Sent"
+    }
+  },
+  {
+    "model": "lead.leadstatus",
+    "pk": 5,
+    "fields": {
+      "name": "Negotiation"
+    }
+  },
+  {
+    "model": "lead.leadstatus",
+    "pk": 6,
+    "fields": {
+      "name": "Won"
+    }
+  },
+  {
+    "model": "lead.leadstatus",
+    "pk": 7,
+    "fields": {
+      "name": "Lost"
+    }
+  }
+]

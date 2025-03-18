@@ -1,9 +1,9 @@
 from django.db import models
 
 from account.models import Account
-from api.common import BaseModel, BaseNameModel, TimestampedModel
 from authentication.models import User
 from campaign.models import Campaign
+from common.models import BaseModel, BaseNameModel, TimestampedModel
 from contact.models import Contact
 
 
