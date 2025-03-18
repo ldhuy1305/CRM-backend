@@ -1,8 +1,8 @@
 from django.db import models
 
 from api import settings
-from api.common import BaseModel, BaseNameModel
 from authentication.models import User
+from common.models import BaseModel, BaseNameModel
 from lead.models import Industry, Lead
 
 

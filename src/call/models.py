@@ -2,8 +2,8 @@
 from django.db import models
 
 from account.models import Account
-from api.common import BaseNameModel
 from authentication.models import User
+from common.models import BaseNameModel
 from contact.models import Contact
 from deal.models import Deal
 from lead.models import Lead

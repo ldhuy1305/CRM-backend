@@ -1,10 +1,10 @@
 from django.urls import include, re_path
 from rest_framework.routers import SimpleRouter
 
-from .views import GroupViewSet
+from lead.views import LeadViewSet
 
 router = SimpleRouter()
-router.register(r"", GroupViewSet, "group")
+router.register(r"", LeadViewSet, "leads")
 
 urlpatterns = [
     re_path(r"^", include(router.urls)),

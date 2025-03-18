@@ -1,6 +1,6 @@
 from django.db import models
 
-from api.common import BaseModel
+from common.models import BaseModel
 from deal.models import Deal, Stage
 
 # Create your models here.

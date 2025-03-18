@@ -31,15 +31,18 @@ class CustomPermission(BasePermission):
 
         request.is_view_all = False
 
-        if self._user_has_permission(user, app_label, permission_all_map.get(view.action)):
+        if self._user_has_permission(
+            user, app_label, permission_all_map.get(view.action)
+        ):
             request.is_view_all = True
             return True
 
         if self._user_has_permission(user, app_label, permission_map.get(view.action)):
             return True
 
-        return False if view.action in ["create",
-                                        "list"] else True  # forward to has_object_permission if neither create nor list
+        return (
+            False if view.action in ["create", "list"] else True
+        )  # forward to has_object_permission if neither create nor list
 
     def has_object_permission(self, request, view, obj):
         user = request.user
@@ -66,7 +69,9 @@ class CustomPermission(BasePermission):
             "partial_update": f"change_{model_name}",
             "destroy": f"delete_{model_name}",
         }
-        if self._user_has_permission(user, app_label, permission_all_map.get(view.action)):
+        if self._user_has_permission(
+            user, app_label, permission_all_map.get(view.action)
+        ):
             return True
 
         if self._user_has_permission(user, app_label, permission_map.get(view.action)):

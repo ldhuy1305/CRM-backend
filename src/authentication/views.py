@@ -20,7 +20,7 @@ from utilities.email.mailer import (
     send_password_reset_email,
     send_verify_login,
 )
-from utilities.permissions.custom_permissions import IsAdmin, IsAuthenticated
+from utilities.permissions.custom_permissions import CustomPermission
 
 from .models import User
 from .serializers import (
@@ -41,11 +41,7 @@ from .serializers import (
 
 class UserViewSet(viewsets.ModelViewSet):
     http_method_names = ["get", "post", "put", "delete"]
-
-    def get_permissions(self):
-        if self.action in ["create", "destroy"]:
-            return [IsAdmin()]
-        return [IsAuthenticated()]
+    permission_classes = [CustomPermission]
 
     def get_serializer_class(self, *args, **kwargs):
         if self.action in ["create", "retrieve"]:
