@@ -48,35 +48,35 @@ class Command(BaseCommand):
     def assign_permission_to_groups(self):
         permissions = {
             GroupNameEnum.ADMIN.value: [
-                *self._get_full_permission(Lead),
+                *self._get_full_permission_for_all(Lead),
                 (ActionEnum.CONVERT.value, Lead),
-                *self._get_full_permission(Contact),
+                *self._get_full_permission_for_all(Contact),
                 (ActionEnum.ASSIGN_TO_OTHER.value, Contact),
-                *self._get_full_permission(Account),
+                *self._get_full_permission_for_all(Account),
                 (ActionEnum.ASSIGN_TO_OTHER.value, Account),
-                *self._get_full_permission(Deal),
+                *self._get_full_permission_for_all(Deal),
                 (ActionEnum.CLOSE.value, Deal),
-                *self._get_full_permission(Campaign),
-                *self._get_full_permission(Task),
+                *self._get_full_permission_for_all(Campaign),
+                *self._get_full_permission_for_all(Task),
                 (ActionEnum.COMPLETE.value, Task),
-                *self._get_full_permission(Meeting),
-                *self._get_full_permission(Call),
-                *self._get_full_permission(User),
+                *self._get_full_permission_for_all(Meeting),
+                *self._get_full_permission_for_all(Call),
+                *self._get_full_permission_for_all(User),
             ],
             GroupNameEnum.MANGER.value: [
-                *self._get_full_permission(Lead),
+                *self._get_full_permission_for_all(Lead),
                 (ActionEnum.CONVERT.value, Lead),
-                *self._get_full_permission(Contact),
+                *self._get_full_permission_for_all(Contact),
                 (ActionEnum.ASSIGN_TO_OTHER.value, Contact),
-                *self._get_full_permission(Account),
+                *self._get_full_permission_for_all(Account),
                 (ActionEnum.ASSIGN_TO_OTHER.value, Account),
-                *self._get_full_permission(Deal),
+                *self._get_full_permission_for_all(Deal),
                 (ActionEnum.CLOSE.value, Deal),
-                *self._get_full_permission(Campaign),
-                *self._get_full_permission(Task),
+                *self._get_full_permission_for_all(Campaign),
+                *self._get_full_permission_for_all(Task),
                 (ActionEnum.COMPLETE.value, Task),
-                *self._get_full_permission(Meeting),
-                *self._get_full_permission(Call),
+                *self._get_full_permission_for_all(Meeting),
+                *self._get_full_permission_for_all(Call),
                 (ActionEnum.VIEW.value, User),
             ],
             GroupNameEnum.SALESMAN.value: [
@@ -117,14 +117,29 @@ class Command(BaseCommand):
             for action, model in permissions:
                 codename = f"{action}_{model._meta.model_name}"
                 permission = Permission.objects.filter(codename=codename).first()
-                if permission:
-                    group.permissions.add(permission)
+                if not permission:
+                    permission = Permission.objects.create(
+                        codename=codename,
+                        content_type=ContentType.objects.get_for_model(model),
+                        name=self._get_name_permission_by_model(action, model)
+                    )
+
+                group.permissions.add(permission)
+
+    @staticmethod
+    def _get_full_permission_for_all(model):
+        return [
+            (ActionEnum.VIEW.value + "all", model),
+            (ActionEnum.ADD.value + "all", model),
+            (ActionEnum.CHANGE.value + "all", model),
+            (ActionEnum.DELETE.value + "all", model),
+        ]
 
     @staticmethod
     def _get_full_permission(model):
         return [
             (ActionEnum.VIEW.value, model),
-            (ActionEnum.ADD.value, model),
+            (ActionEnum.ADD.value + "all", model),
             (ActionEnum.CHANGE.value, model),
             (ActionEnum.DELETE.value, model),
         ]
@@ -142,10 +157,12 @@ class Command(BaseCommand):
 
     @staticmethod
     def _get_name_permission_by_model(action: str, model: Any) -> str:
+        action = action.replace("all", " all")
         model_name = model._meta.model_name
         return f"Can {action} {model_name}"
 
     @staticmethod
     def _get_codename_permission_by_model(action: str, model: Any) -> str:
+        action = action.replace("all", "")
         model_name = model._meta.model_name
         return f"{action}_{model_name}"
