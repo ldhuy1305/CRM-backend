@@ -6,12 +6,12 @@ from rest_framework.response import Response
 
 from authentication.models import User
 from group.serializers import GroupDetailSerializer, GroupSerializer
-from utilities.permissions.custom_permissions import IsAdmin
+from utilities.permissions.custom_permissions import CustomPermission
 
 
 # Create your views here.
 class GroupViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAdmin]
+    permission_classes = [CustomPermission]
     http_method_names = ["get", "post", "put", "delete"]
 
     def get_serializer_class(self):

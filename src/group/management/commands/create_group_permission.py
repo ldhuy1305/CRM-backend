@@ -121,7 +121,7 @@ class Command(BaseCommand):
                     permission = Permission.objects.create(
                         codename=codename,
                         content_type=ContentType.objects.get_for_model(model),
-                        name=self._get_name_permission_by_model(action, model)
+                        name=self._get_name_permission_by_model(action, model),
                     )
 
                 group.permissions.add(permission)
