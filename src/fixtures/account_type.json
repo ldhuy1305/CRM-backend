@@ -1,0 +1,86 @@
+[
+  {
+    "model": "account.accounttype",
+    "pk": 1,
+    "fields": {
+      "name": "Khác"
+    }
+  },
+  {
+    "model": "account.accounttype",
+    "pk": 2,
+    "fields": {
+      "name": "Đối tác"
+    }
+  },
+  {
+    "model": "account.accounttype",
+    "pk": 3,
+    "fields": {
+      "name": "Báo chí"
+    }
+  },
+  {
+    "model": "account.accounttype",
+    "pk": 4,
+    "fields": {
+      "name": "Tiềm năng"
+    }
+  },
+  {
+    "model": "account.accounttype",
+    "pk": 5,
+    "fields": {
+      "name": "Bán lẻ"
+    }
+  },
+  {
+    "model": "account.accounttype",
+    "pk": 6,
+    "fields": {
+      "name": "Nhà cung cấp"
+    }
+  },
+  {
+    "model": "account.accounttype",
+    "pk": 7,
+    "fields": {
+      "name": "Phân tích"
+    }
+  },
+  {
+    "model": "account.accounttype",
+    "pk": 8,
+    "fields": {
+      "name": "Đối thủ"
+    }
+  },
+  {
+    "model": "account.accounttype",
+    "pk": 9,
+    "fields": {
+      "name": "Khách hàng"
+    }
+  },
+  {
+    "model": "account.accounttype",
+    "pk": 10,
+    "fields": {
+      "name": "Nhà phân phối"
+    }
+  },
+  {
+    "model": "account.accounttype",
+    "pk": 11,
+    "fields": {
+      "name": "Tích hợp"
+    }
+  },
+  {
+    "model": "account.accounttype",
+    "pk": 12,
+    "fields": {
+      "name": "Đầu tư"
+    }
+  }
+]

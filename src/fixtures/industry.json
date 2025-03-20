@@ -3,42 +3,126 @@
     "model": "lead.industry",
     "pk": 1,
     "fields": {
-      "name": "Technology"
+      "name": "ASP (Nhà Cung Cấp Dịch Vụ Ứng Dụng)"
     }
   },
   {
     "model": "lead.industry",
     "pk": 2,
     "fields": {
-      "name": "Finance"
+      "name": "OEM Dữ liệu/Viễn thông"
     }
   },
   {
     "model": "lead.industry",
     "pk": 3,
     "fields": {
-      "name": "Healthcare"
+      "name": "ERP (Lập Kế Hoạch Tài Nguyên Doanh Nghiệp)"
     }
   },
   {
     "model": "lead.industry",
     "pk": 4,
     "fields": {
-      "name": "Retail"
+      "name": "Chính phủ / Quân đội"
     }
   },
   {
     "model": "lead.industry",
     "pk": 5,
     "fields": {
-      "name": "Education"
+      "name": "Doanh nghiệp lớn"
     }
   },
   {
     "model": "lead.industry",
     "pk": 6,
     "fields": {
-      "name": "Real Estate"
+      "name": "Nhà Cung cấp Phần mềm Độc lập"
+    }
+  },
+  {
+    "model": "lead.industry",
+    "pk": 7,
+    "fields": {
+      "name": "MSP (Nhà Cung cấp Dịch vụ Quản lý)"
+    }
+  },
+  {
+    "model": "lead.industry",
+    "pk": 8,
+    "fields": {
+      "name": "Doanh Nghiệp Thiết Bị Mạng"
+    }
+  },
+  {
+    "model": "lead.industry",
+    "pk": 9,
+    "fields": {
+      "name": "ISV phi quản lý"
+    }
+  },
+  {
+    "model": "lead.industry",
+    "pk": 10,
+    "fields": {
+      "name": "Mạng Quang"
+    }
+  },
+  {
+    "model": "lead.industry",
+    "pk": 11,
+    "fields": {
+      "name": "Nhà Cung cấp"
+    }
+  },
+  {
+    "model": "lead.industry",
+    "pk": 12,
+    "fields": {
+      "name": "Doanh nghiệp Vừa và Nhỏ"
+    }
+  },
+  {
+    "model": "lead.industry",
+    "pk": 13,
+    "fields": {
+      "name": "Thiết bị lưu trữ"
+    }
+  },
+  {
+    "model": "lead.industry",
+    "pk": 14,
+    "fields": {
+      "name": "Nhà Cung cấp Thiết bị lưu trữ"
+    }
+  },
+  {
+    "model": "lead.industry",
+    "pk": 15,
+    "fields": {
+      "name": "Nhà tích hợp Hệ thống"
+    }
+  },
+  {
+    "model": "lead.industry",
+    "pk": 16,
+    "fields": {
+      "name": "Công nghiệp Không dây"
+    }
+  },
+  {
+    "model": "lead.industry",
+    "pk": 17,
+    "fields": {
+      "name": "ERP"
+    }
+  },
+  {
+    "model": "lead.industry",
+    "pk": 18,
+    "fields": {
+      "name": "Management ISV"
     }
   }
 ]
