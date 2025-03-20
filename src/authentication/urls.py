@@ -1,12 +1,12 @@
-from django.urls import include, path, re_path
+from django.urls import path
 from rest_framework.routers import SimpleRouter
 from rest_framework_simplejwt.views import TokenRefreshView
 
 from .views import (
-    AddPasswordView,
     ChangePasswordAPIView,
     LoginAPIView,
     LogoutAPIView,
+    MeAPIView,
     PasswordTokenCheckAPI,
     ResendCodeAPIView,
     ResetPasswordAPIView,
@@ -34,6 +34,11 @@ urlpatterns = [
     path(
         "password-reset-complete/",
         SetNewPasswordAPIView.as_view(),
+        name="password-reset-complete",
+    ),
+    path(
+        "me/",
+        MeAPIView.as_view(),
         name="password-reset-complete",
     ),
 ]

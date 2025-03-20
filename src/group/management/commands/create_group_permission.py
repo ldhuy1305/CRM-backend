@@ -106,6 +106,7 @@ class Command(BaseCommand):
         }
         for group_name, permissions in permissions.items():
             group = Group.objects.get(name=group_name)
+            group.permissions.clear()
             for action, model in permissions:
                 codename = f"{action}_{model._meta.model_name}"
                 permission = Permission.objects.filter(codename=codename).first()
