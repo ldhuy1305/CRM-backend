@@ -1,7 +1,11 @@
+from django.db import transaction
 from rest_framework import serializers
 
+from account.models import Account
+from authentication.models import User
 from authentication.serializers import UserSerializer
 from common.serializers import BaseDetailSerializer, BaseNameSerializer, BaseSerializer
+from contact.models import Contact
 from lead.models import Industry, Lead, LeadSource, LeadStatus
 
 
@@ -55,3 +59,32 @@ class LeadDetailSerializer(BaseDetailSerializer, serializers.ModelSerializer):
     class Meta:
         model = Lead
         fields = "__all__"
+
+
+class ConvertSerializer(serializers.Serializer):
+    account_owner = serializers.IntegerField(required=True, write_only=True)
+    is_create_deal = serializers.BooleanField(default=False, write_only=True)
+
+    # TODO: create serializer of Deal
+
+    @transaction.atomic
+    def update(self, instance, validated_data):
+        user = User.objects.get(pk=validated_data["account_owner"])
+        user_create = self.context.get("request").user
+
+        data_account = instance.get_data_account_from_lead()
+        account = Account.objects.create(
+            **data_account,
+            account_owner=user,
+            created_by=user_create
+        )
+
+        data_contact = instance.get_data_contact_from_lead()
+        contact = Contact.objects.create(
+            **data_contact,
+            contact_owner=user,
+            created_by=user_create
+        )
+
+        instance.delete()
+        return dict(account=account, contact=contact)

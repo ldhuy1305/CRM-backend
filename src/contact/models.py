@@ -4,10 +4,11 @@ from django.db import models
 from account.models import Account
 from api import settings
 from authentication.models import User
+from common.models import BaseModel
 from lead.models import LeadSource
 
 
-class Contact(models.Model):
+class Contact(BaseModel):
     contact_owner = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
@@ -30,10 +31,12 @@ class Contact(models.Model):
         related_name="contacts",
     )
 
-    name = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=255, null=True, blank=True)
+    last_name = models.CharField(max_length=255, null=True, blank=True)
     email = models.EmailField(unique=True, null=True, blank=True)
     phone = models.CharField(max_length=20, null=True, blank=True)
-    mobile = models.CharField(max_length=20, null=True, blank=True)
+    website = models.URLField(null=True, blank=True)
+    fax = models.CharField(max_length=20, null=True, blank=True)
     department = models.CharField(max_length=255, null=True, blank=True)
     birthday = models.DateField(null=True, blank=True)
 
@@ -43,6 +46,12 @@ class Contact(models.Model):
 
     is_email_opt_out = models.BooleanField(default=False)
     is_call_opt_out = models.BooleanField(default=False)
+
+    street = models.CharField(max_length=255, null=True, blank=True)
+    country = models.CharField(max_length=100, null=True, blank=True)
+    city = models.CharField(max_length=100, null=True, blank=True)
+    state_province = models.CharField(max_length=100, null=True, blank=True)
+    postal_code = models.CharField(max_length=20, null=True, blank=True)
 
     description = models.TextField(blank=True, null=True)
 

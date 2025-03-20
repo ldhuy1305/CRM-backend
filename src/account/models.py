@@ -54,6 +54,13 @@ class Account(BaseModel):
     annual_revenue = models.DecimalField(
         max_digits=15, decimal_places=2, blank=True, null=True
     )
+
+    street = models.CharField(max_length=255, null=True, blank=True)
+    country = models.CharField(max_length=100, null=True, blank=True)
+    city = models.CharField(max_length=100, null=True, blank=True)
+    state_province = models.CharField(max_length=100, null=True, blank=True)
+    postal_code = models.CharField(max_length=20, null=True, blank=True)
+
     description = models.TextField(blank=True, null=True)
 
     class Meta:

@@ -1,9 +1,12 @@
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, viewsets
+from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from lead.models import Lead
-from lead.serializers import LeadDetailSerializer, LeadSerializer
+from lead.serializers import ConvertSerializer, LeadDetailSerializer, LeadSerializer
 from utilities.permissions.custom_permissions import CustomPermission
+
 
 # Create your views here.
 
@@ -18,7 +21,7 @@ class LeadViewSet(viewsets.ModelViewSet):
         if self.action in ["create", "update"]:
             return LeadSerializer
         if self.action == "convert":
-            return LeadSerializer
+            return ConvertSerializer
 
     def get_queryset(self):
         return Lead.objects.all()
@@ -48,7 +51,7 @@ class LeadViewSet(viewsets.ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-        # instance.delete()
+        instance.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def create(self, request, *args, **kwargs):
@@ -68,3 +71,17 @@ class LeadViewSet(viewsets.ModelViewSet):
         )
 
         return Response(LeadDetailSerializer(data).data, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema()
+    @action(
+        detail=False,
+        methods=["post"],
+        url_path="(?P<pk>\d+)/convert",
+    )
+    def convert(self, request, *args, **kwargs):
+        data = request.data
+        instance = self.get_object()
+        serializer = self.get_serializer(data=data, context={"request": request})
+        serializer.is_valid(raise_exception=True)
+        serializer.update(instance=instance, validated_data=serializer.validated_data)
+        return Response(data={"msg": "Convert successfully"}, status=status.HTTP_200_OK)
