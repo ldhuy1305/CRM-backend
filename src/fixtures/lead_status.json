@@ -3,49 +3,56 @@
     "model": "lead.leadstatus",
     "pk": 1,
     "fields": {
-      "name": "New"
+      "name": "Chưa liên hệ"
     }
   },
   {
     "model": "lead.leadstatus",
     "pk": 2,
     "fields": {
-      "name": "Contacted"
+      "name": "Đã thử liên hệ"
     }
   },
   {
     "model": "lead.leadstatus",
     "pk": 3,
     "fields": {
-      "name": "Qualified"
+      "name": "Liên hệ trong tương lai"
     }
   },
   {
     "model": "lead.leadstatus",
     "pk": 4,
     "fields": {
-      "name": "Proposal Sent"
+      "name": "Đã liên hệ"
     }
   },
   {
     "model": "lead.leadstatus",
     "pk": 5,
     "fields": {
-      "name": "Negotiation"
+      "name": "Chào hàng"
     }
   },
   {
     "model": "lead.leadstatus",
     "pk": 6,
     "fields": {
-      "name": "Won"
+      "name": "Mất khách hàng"
     }
   },
   {
     "model": "lead.leadstatus",
     "pk": 7,
     "fields": {
-      "name": "Lost"
+      "name": "Xác định điều kiện trước"
+    }
+  },
+  {
+    "model": "lead.leadstatus",
+    "pk": 8,
+    "fields": {
+      "name": "Không đủ tư cách"
     }
   }
 ]
