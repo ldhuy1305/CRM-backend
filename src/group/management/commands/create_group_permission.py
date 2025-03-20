@@ -63,7 +63,7 @@ class Command(BaseCommand):
                 *self._get_full_permission_for_all(Call),
                 *self._get_full_permission_for_all(User),
             ],
-            GroupNameEnum.MANGER.value: [
+            GroupNameEnum.MANAGER.value: [
                 *self._get_full_permission_for_all(Lead),
                 (ActionEnum.CONVERT.value, Lead),
                 *self._get_full_permission_for_all(Contact),
@@ -148,12 +148,12 @@ class Command(BaseCommand):
     def create_group_permission():
         names = [
             GroupNameEnum.ADMIN.value,
-            GroupNameEnum.MANGER.value,
+            GroupNameEnum.MANAGER.value,
             GroupNameEnum.SALESMAN.value,
             GroupNameEnum.MARKETER.value,
         ]
         for name in names:
-            group, created = Group.objects.get_or_create(name=name)
+            Group.objects.get_or_create(name=name)
 
     @staticmethod
     def _get_name_permission_by_model(action: str, model: Any) -> str:

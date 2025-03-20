@@ -76,6 +76,7 @@ INSTALLED_APPS = [
     "stage_history",
     "tag_item",
     "task",
+    "fixtures",
 ]
 
 MIDDLEWARE = [

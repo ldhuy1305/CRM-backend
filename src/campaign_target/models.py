@@ -1,7 +1,7 @@
 from django.db import models
 
-from api.common import BaseModel
 from campaign.models import Campaign
+from common.models import BaseModel
 from contact.models import Contact
 from lead.models import Lead
 

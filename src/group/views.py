@@ -15,9 +15,9 @@ class GroupViewSet(viewsets.ModelViewSet):
     http_method_names = ["get", "post", "put", "delete"]
 
     def get_serializer_class(self):
-        if action in ["list", "retrieve"]:
+        if self.action in ["list", "retrieve"]:
             return GroupDetailSerializer
-        if action in ["create", "update"]:
+        if self.action in ["create", "update"]:
             return GroupSerializer
         return GroupDetailSerializer
 

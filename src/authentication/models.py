@@ -4,7 +4,7 @@ from django.db import models
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from api import settings
-from api.common import TimestampedModel
+from common.models import TimestampedModel
 
 from .managers import UserManager
 

@@ -2,8 +2,8 @@
 from django.db import models
 
 from account.models import Account
-from api.common import BaseNameModel
 from authentication.models import User
+from common.models import BaseModel, BaseNameModel
 from contact.models import Contact
 from deal.models import Deal
 from lead.models import Lead
@@ -27,7 +27,7 @@ class CallType(BaseNameModel):
         db_table = "call_type"
 
 
-class Call(models.Model):
+class Call(BaseModel):
     call_owner = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True, blank=True, related_name="calls"
     )

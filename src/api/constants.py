@@ -37,6 +37,6 @@ class ModuleEnum(Enum):
 
 class GroupNameEnum(Enum):
     ADMIN = "Admin"
-    MANGER = "Manager"
+    MANAGER = "Manager"
     SALESMAN = "Salesman"
     MARKETER = "Marketer"

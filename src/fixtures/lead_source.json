@@ -1,0 +1,44 @@
+[
+  {
+    "model": "lead.leadsource",
+    "pk": 1,
+    "fields": {
+      "name": "Website"
+    }
+  },
+  {
+    "model": "lead.leadsource",
+    "pk": 2,
+    "fields": {
+      "name": "Social Media"
+    }
+  },
+  {
+    "model": "lead.leadsource",
+    "pk": 3,
+    "fields": {
+      "name": "Referral"
+    }
+  },
+  {
+    "model": "lead.leadsource",
+    "pk": 4,
+    "fields": {
+      "name": "Cold Call"
+    }
+  },
+  {
+    "model": "lead.leadsource",
+    "pk": 5,
+    "fields": {
+      "name": "Event"
+    }
+  },
+  {
+    "model": "lead.leadsource",
+    "pk": 6,
+    "fields": {
+      "name": "Email Campaign"
+    }
+  }
+]

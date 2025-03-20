@@ -1,0 +1,44 @@
+[
+  {
+    "model": "lead.industry",
+    "pk": 1,
+    "fields": {
+      "name": "Technology"
+    }
+  },
+  {
+    "model": "lead.industry",
+    "pk": 2,
+    "fields": {
+      "name": "Finance"
+    }
+  },
+  {
+    "model": "lead.industry",
+    "pk": 3,
+    "fields": {
+      "name": "Healthcare"
+    }
+  },
+  {
+    "model": "lead.industry",
+    "pk": 4,
+    "fields": {
+      "name": "Retail"
+    }
+  },
+  {
+    "model": "lead.industry",
+    "pk": 5,
+    "fields": {
+      "name": "Education"
+    }
+  },
+  {
+    "model": "lead.industry",
+    "pk": 6,
+    "fields": {
+      "name": "Real Estate"
+    }
+  }
+]
