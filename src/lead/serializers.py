@@ -74,16 +74,12 @@ class ConvertSerializer(serializers.Serializer):
 
         data_account = instance.get_data_account_from_lead()
         account = Account.objects.create(
-            **data_account,
-            account_owner=user,
-            created_by=user_create
+            **data_account, account_owner=user, created_by=user_create
         )
 
         data_contact = instance.get_data_contact_from_lead()
         contact = Contact.objects.create(
-            **data_contact,
-            contact_owner=user,
-            created_by=user_create
+            **data_contact, contact_owner=user, created_by=user_create
         )
 
         instance.delete()

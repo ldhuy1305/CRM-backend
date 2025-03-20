@@ -7,7 +7,6 @@ from lead.models import Lead
 from lead.serializers import ConvertSerializer, LeadDetailSerializer, LeadSerializer
 from utilities.permissions.custom_permissions import CustomPermission
 
-
 # Create your views here.
 
 

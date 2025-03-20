@@ -2,8 +2,7 @@ from django.db import models
 
 from api import settings
 from authentication.models import User
-from common.models import BaseModel, BaseNameModel, TimestampedModel, CustomModel
-
+from common.models import BaseModel, BaseNameModel, CustomModel, TimestampedModel
 
 # Create your models here.
 
