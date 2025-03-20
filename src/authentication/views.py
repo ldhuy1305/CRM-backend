@@ -20,7 +20,7 @@ from utilities.email.mailer import (
     send_password_reset_email,
     send_verify_login,
 )
-from utilities.permissions.custom_permissions import CustomPermission
+from utilities.permissions.custom_permissions import CustomPermission, IsAuthenticated
 
 from .models import User
 from .serializers import (
@@ -28,6 +28,7 @@ from .serializers import (
     ListUserSerializer,
     LoginSerializer,
     LogoutSerializer,
+    MeSerializer,
     PasswordSerializer,
     RegisterSerializer,
     ResetPasswordRequestSerializer,
@@ -271,5 +272,21 @@ class SetNewPasswordAPIView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         return Response(
             {"success": True, "message": "Password reset success"},
+            status=status.HTTP_200_OK,
+        )
+
+
+class MeAPIView(views.APIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = MeSerializer
+
+    def get(self, request, *args, **kwargs):
+        serializer = self.serializer_class(
+            data=request.data, context={"request": request}
+        )
+        serializer.is_valid(raise_exception=True)
+
+        return Response(
+            data=serializer.data,
             status=status.HTTP_200_OK,
         )

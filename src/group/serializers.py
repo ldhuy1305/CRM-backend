@@ -2,7 +2,6 @@ from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from rest_framework import serializers
 
-from authentication.models import User
 from authentication.serializers import UserSerializer
 
 

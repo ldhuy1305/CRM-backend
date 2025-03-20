@@ -1,4 +1,4 @@
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, Permission
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.exceptions import BadRequest
 from django.core.validators import validate_email
@@ -290,3 +290,18 @@ class SetNewPasswordSerializer(serializers.Serializer):
             return user
         except Exception as e:
             raise e
+
+
+class MeSerializer(serializers.Serializer):
+    user = serializers.SerializerMethodField(read_only=True)
+
+    def get_user(self, obj):
+        from group.serializers import PermissionSerializer
+
+        user = self.context["request"].user
+        data = UserSerializer(user).data
+        permissions = user.user_permissions.all() | Permission.objects.filter(
+            group__user=user
+        )
+        data.update(permissions=PermissionSerializer(permissions, many=True).data)
+        return data
