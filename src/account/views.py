@@ -6,7 +6,6 @@ from account.serializers import AccountDetailSerializer, AccountSerializer
 from contact.models import Contact
 from utilities.permissions.custom_permissions import CustomPermission
 
-
 # Create your views here.
 
 
@@ -57,7 +56,9 @@ class AccountViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=data, context={"request": request})
         serializer.is_valid(raise_exception=True)
         data = serializer.create(validated_data=serializer.validated_data)
-        return Response(AccountDetailSerializer(data).data, status=status.HTTP_201_CREATED)
+        return Response(
+            AccountDetailSerializer(data).data, status=status.HTTP_201_CREATED
+        )
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()

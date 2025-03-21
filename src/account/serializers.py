@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from account.models import Account, AccountType
 from authentication.serializers import UserSerializer
-from common.serializers import BaseDetailSerializer, BaseSerializer, BaseNameSerializer
+from common.serializers import BaseDetailSerializer, BaseNameSerializer, BaseSerializer
 from contact.serializers import ContactDetailSerializer
 
 

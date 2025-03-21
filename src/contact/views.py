@@ -5,7 +5,6 @@ from contact.models import Contact
 from contact.serializers import ContactDetailSerializer, ContactSerializer
 from utilities.permissions.custom_permissions import CustomPermission
 
-
 # Create your views here.
 
 
@@ -55,7 +54,9 @@ class ContactViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=data, context={"request": request})
         serializer.is_valid(raise_exception=True)
         data = serializer.create(validated_data=serializer.validated_data)
-        return Response(ContactDetailSerializer(data).data, status=status.HTTP_201_CREATED)
+        return Response(
+            ContactDetailSerializer(data).data, status=status.HTTP_201_CREATED
+        )
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
