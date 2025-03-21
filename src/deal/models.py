@@ -43,6 +43,7 @@ class Deal(BaseModel):
     lost_reason = models.ForeignKey(
         LostReason, on_delete=models.SET_NULL, null=True, blank=True
     )
+    stage = models.ForeignKey(Stage, on_delete=models.SET_NULL, null=True, blank=True)
 
     name = models.CharField(max_length=255)
     close_date = models.DateField(null=True, blank=True)

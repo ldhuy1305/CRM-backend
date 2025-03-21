@@ -1,0 +1,74 @@
+[
+  {
+    "model": "deal.stage",
+    "pk": 1,
+    "fields": {
+      "name": "Chứng thực",
+      "probability": 0.1
+    }
+  },
+  {
+    "model": "deal.stage",
+    "pk": 2,
+    "fields": {
+      "name": "Cần phân tích",
+      "probability": 0.2
+    }
+  },
+  {
+    "model": "deal.stage",
+    "pk": 3,
+    "fields": {
+      "name": "Đề xuất giá trị",
+      "probability": 0.4
+    }
+  },
+  {
+    "model": "deal.stage",
+    "pk": 4,
+    "fields": {
+      "name": "Xác định những người quyết định",
+      "probability": 0.6
+    }
+  },
+  {
+    "model": "deal.stage",
+    "pk": 5,
+    "fields": {
+      "name": "Gửi dự toán / giá",
+      "probability": 0.75
+    }
+  },
+  {
+    "model": "deal.stage",
+    "pk": 6,
+    "fields": {
+      "name": "Thương lượng/ xem lại",
+      "probability": 0.9
+    }
+  },
+  {
+    "model": "deal.stage",
+    "pk": 7,
+    "fields": {
+      "name": "Đã kết thúc thành công",
+      "probability": 1.0
+    }
+  },
+  {
+    "model": "deal.stage",
+    "pk": 8,
+    "fields": {
+      "name": "Bỏ qua kết thúc",
+      "probability": 0
+    }
+  },
+  {
+    "model": "deal.stage",
+    "pk": 9,
+    "fields": {
+      "name": "Đã đóng, đã mất về tay đối thủ",
+      "probability": 0
+    }
+  }
+]

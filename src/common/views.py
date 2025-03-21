@@ -1,4 +1,4 @@
-from django.db.models import Model, Q, QuerySet
+from django.db.models import Q, QuerySet
 from rest_framework import viewsets
 
 from api.constants import SortOderEnum
@@ -18,12 +18,12 @@ class SortAndFilterViewSet(viewsets.ModelViewSet):
             queryset=queryset,
             search_fields=(
                 self.model.SEARCH_FIELDS
-                if self.model and self.model.SEARCH_FIELDS
+                if self.model and getattr(self.model, "SEARCH_FIELDS", None)
                 else {}
             ),
             search_fields_contains=(
                 self.model.SEARCH_FIELDS_CONTAINS
-                if self.model and self.model.SEARCH_FIELDS_CONTAINS
+                if self.model and getattr(self.model, "SEARCH_FIELDS_CONTAINS", None)
                 else {}
             ),
             query_params=request.query_params,
