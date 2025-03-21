@@ -57,6 +57,25 @@ class Lead(BaseModel, CustomModel):
 
     description = models.TextField(null=True, blank=True)
 
+    #
+    # SEARCH_FIELDS = {
+    #
+    #     "annual_revenue": ,
+    # }
+
+    SEARCH_FIELDS = dict(
+        annual_revenue="annual_revenue",
+    )
+
+    SEARCH_FIELDS_CONTAINS = dict(
+        first_name="first_name",
+        last_name="last_name",
+        company_name=company_name,
+        email="email",
+        phone="phone",
+    )
+    SORT_BY = ["first_name", "last_name", "company_name", "email"]
+
     class Meta:
         ordering = ["-id"]
         db_table = "lead"

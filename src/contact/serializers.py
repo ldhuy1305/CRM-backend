@@ -3,7 +3,6 @@ from rest_framework import serializers
 from authentication.serializers import UserSerializer
 from common.serializers import BaseDetailSerializer, BaseSerializer
 from contact.models import Contact
-from lead.serializers import LeadSourceSerializer
 
 
 class ContactSerializer(BaseSerializer):
@@ -31,6 +30,8 @@ class ContactSerializer(BaseSerializer):
 
 
 class ContactDetailSerializer(BaseDetailSerializer, serializers.ModelSerializer):
+    from lead.serializers import LeadSourceSerializer
+
     contact_owner = UserSerializer(read_only=True)
     lead_source = LeadSourceSerializer(read_only=True)
 

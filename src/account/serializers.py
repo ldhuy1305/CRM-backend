@@ -4,6 +4,7 @@ from account.models import Account, AccountType
 from authentication.serializers import UserSerializer
 from common.serializers import BaseDetailSerializer, BaseNameSerializer, BaseSerializer
 from contact.serializers import ContactDetailSerializer
+from lead.serializers import IndustrySerializer
 
 
 class AccountTypeSerializer(BaseNameSerializer):
@@ -12,11 +13,6 @@ class AccountTypeSerializer(BaseNameSerializer):
 
 
 class RatingSerializer(BaseNameSerializer):
-    class Meta(BaseNameSerializer.Meta):
-        model = AccountType
-
-
-class IndustrySerializer(BaseNameSerializer):
     class Meta(BaseNameSerializer.Meta):
         model = AccountType
 
