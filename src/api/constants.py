@@ -40,3 +40,8 @@ class GroupNameEnum(Enum):
     MANAGER = "Manager"
     SALESMAN = "Salesman"
     MARKETER = "Marketer"
+
+
+class SortOderEnum(Enum):
+    ASC = "asc"
+    DESC = "desc"

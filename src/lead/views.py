@@ -29,6 +29,7 @@ class LeadViewSet(SortAndFilterViewSet):
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset_by_filter(queryset=self.get_queryset())
+        queryset = self.get_queryset_by_sort(queryset)
         page = self.paginate_queryset(queryset)
         if page is not None:
             serialize = self.get_serializer(page, many=True)
