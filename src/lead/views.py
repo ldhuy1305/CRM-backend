@@ -3,6 +3,7 @@ from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from common.views import SortAndFilterViewSet
 from lead.models import Lead
 from lead.serializers import ConvertSerializer, LeadDetailSerializer, LeadSerializer
 from utilities.permissions.custom_permissions import CustomPermission
@@ -10,9 +11,10 @@ from utilities.permissions.custom_permissions import CustomPermission
 # Create your views here.
 
 
-class LeadViewSet(viewsets.ModelViewSet):
+class LeadViewSet(SortAndFilterViewSet):
     http_method_names = ["get", "post", "put", "delete"]
     permission_classes = [CustomPermission]
+    model = Lead
 
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:
@@ -26,11 +28,8 @@ class LeadViewSet(viewsets.ModelViewSet):
         return Lead.objects.all()
 
     def list(self, request, *args, **kwargs):
-        is_view_all = getattr(request, "is_view_all", None)
-        queryset = self.get_queryset()
-        if not is_view_all:
-            queryset = queryset.filter(created_by=self.request.user)
-
+        queryset = self.get_queryset_by_filter(queryset=self.get_queryset())
+        queryset = self.get_queryset_by_sort(queryset)
         page = self.paginate_queryset(queryset)
         if page is not None:
             serialize = self.get_serializer(page, many=True)
@@ -73,11 +72,11 @@ class LeadViewSet(viewsets.ModelViewSet):
 
     @swagger_auto_schema()
     @action(
-        detail=False,
+        detail=True,
         methods=["post"],
-        url_path="(?P<pk>\d+)/convert",
+        url_path="convert",
     )
-    def convert(self, request, *args, **kwargs):
+    def convert(self, request, pk=None, *args, **kwargs):
         data = request.data
         instance = self.get_object()
         serializer = self.get_serializer(data=data, context={"request": request})
