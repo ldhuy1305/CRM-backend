@@ -28,6 +28,10 @@
     ├── .pre-commit-config.yaml             - fomatter code
     ├── cronjob.sh                          - cronjob file
     ├── manage.py                           - manager project
+├── docker
+    ├── docker-compose.yml                  - Docker compose
+    ├── Dockerfile                          - Dockerfile
+├── src 
 ├── README.md
 ├── requirements.txt                        - package
 ```

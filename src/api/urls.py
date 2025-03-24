@@ -42,20 +42,24 @@ if settings.DEBUG:
     ]
 ver = settings.VERSION_REG
 urlpatterns = (
-    [
-        path("admin/", admin.site.urls),
-        re_path(f"api/{ver}/auth/", include("authentication.urls")),
-        re_path(f"api/{ver}/group/", include("group.urls")),
-        re_path(f"api/{ver}/users/", include("authentication.user_urls")),
-        re_path(f"api/{ver}/leads/", include("lead.urls")),
-        re_path(f"api/{ver}/contacts/", include("contact.urls")),
-        re_path(f"api/{ver}/accounts/", include("account.urls")),
-        re_path(f"api/{ver}/deals/", include("deal.urls")),
-        # re_path(
-        #     f"api/{ver}/notification/",
-        #     include("django_notification.api.routers.notification"),
-        # ),
-    ]
-    + staticfiles_urlpatterns()
-    + schema_api_docs
+        [
+            path("admin/", admin.site.urls),
+
+            # path(f"api/{ver}/create_notification/", create_notification),
+            re_path(f"api/{ver}/auth/", include("authentication.urls")),
+            re_path(f"api/{ver}/group/", include("group.urls")),
+            re_path(f"api/{ver}/users/", include("authentication.user_urls")),
+            re_path(f"api/{ver}/leads/", include("lead.urls")),
+            re_path(f"api/{ver}/contacts/", include("contact.urls")),
+            re_path(f"api/{ver}/accounts/", include("account.urls")),
+            re_path(f"api/{ver}/deals/", include("deal.urls")),
+
+            re_path(f"api/{ver}/notifications/", include("notification.urls")),
+            # re_path(
+            #     f"api/{ver}/notification/",
+            #     include("django_notification.api.routers.notification"),
+            # ),
+        ]
+        + staticfiles_urlpatterns()
+        + schema_api_docs
 )

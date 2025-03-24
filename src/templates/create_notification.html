@@ -1,0 +1,18 @@
+<form method="POST">
+    {% csrf_token %}
+    <div>
+        <label>Tên thông báo:</label>
+        <input type="text" name="name" required>
+    </div>
+    <div>
+        <label>Nội dung:</label>
+        <textarea name="message" required></textarea>
+    </div>
+    <div>
+        <label>Giờ:</label>
+        <input type="number" name="hour" min="0" max="23" required>
+        <label>Phút:</label>
+        <input type="number" name="minute" min="0" max="59" required>
+    </div>
+    <button type="submit">Tạo lịch thông báo</button>
+</form>

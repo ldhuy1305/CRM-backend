@@ -1,0 +1,53 @@
+version: '3.8'
+services:
+  django:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../src:/src
+    command: ash -c "cd /src && python manage.py migrate && python manage.py create_group_permission && python manage.py load_data && python manage.py runserver 0.0.0.0:8000"
+    tty: true
+    restart: always
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - ../src/.env
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+
+  postgres:
+    image: postgres:14-alpine
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./.env
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+
+  celery:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    command: ash -c "cd /src && celery --app=api worker -l info"
+    volumes:
+      - ../src:/src
+    depends_on:
+      - postgres
+      - redis
+      - django
+    env_file:
+      - ../src/.env
+
+volumes:
+  postgres:
+
+networks:
+  my-network:
+    driver: bridge
