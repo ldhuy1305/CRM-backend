@@ -2,7 +2,6 @@ name: Pre-commit Check & Auto-fix
 
 on:
   pull_request:
-  push:
 
 jobs:
   pre-commit:
@@ -26,11 +25,12 @@ jobs:
 
       - name: Run pre-commit
         id: precommit
+        continue-on-error: true
         run: |
           pre-commit run --all-files || echo "fix needed" > fix_flag
 
       - name: Auto-fix and commit if needed
-        if: success() || steps.precommit.outcome == 'failure'
+        if: always()
         run: |
           if [ -f fix_flag ]; then
             pre-commit run --all-files --hook-stage manual
@@ -38,5 +38,7 @@ jobs:
             git config --global user.email "github-actions[bot]@users.noreply.github.com"
             git add .
             git commit -m "style: Auto-format code using pre-commit" || exit 0
-            git push
+
+            BRANCH_NAME=${GITHUB_REF#refs/heads/}
+            git push -f origin $BRANCH_NAME || true
           fi
