@@ -4,6 +4,7 @@ from api import settings
 from authentication.models import User
 from common.models import BaseModel, BaseNameModel, CustomModel, TimestampedModel
 
+
 # Create your models here.
 
 
@@ -80,6 +81,13 @@ class Lead(BaseModel, CustomModel):
         ordering = ["-id"]
         db_table = "lead"
         app_label = "lead"
+
+    def get_full_name(self):
+        try:
+            full_name = f"{self.last_name} {self.first_name}"
+        except AttributeError:
+            full_name = self.email
+        return full_name.strip()
 
     def get_data_contact_from_lead(self):
         return dict(

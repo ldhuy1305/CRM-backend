@@ -36,7 +36,7 @@ class MeetingSerializer(BaseSerializer):
                 )
             )
         MeetingParticipant.objects.bulk_create(meeting_participants)
-        
+
         return meeting
 
     def update(self, instance, validated_data):
@@ -47,7 +47,20 @@ class MeetingSerializer(BaseSerializer):
         return instance
 
 
-class MeetingDetailSerializer(BaseDetailSerializer, serializers.ModelSerializer):
+class MeetingDetailSerializer(BaseDetailSerializer):
+    participants = serializers.SerializerMethodField()
+
     class Meta:
         model = Meeting
         fields = "__all__"
+
+    def get_participants(self, obj):
+        participants = MeetingParticipant.objects.filter(meeting=obj)
+        result = []
+
+        for participant in participants:
+            user = participant.user or participant.lead or participant.contact
+            if user:
+                result.append({"name": user.get_full_name(), "email": user.email})
+
+        return result

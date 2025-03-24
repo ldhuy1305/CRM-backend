@@ -29,7 +29,7 @@ class ContactSerializer(BaseSerializer):
         return instance
 
 
-class ContactDetailSerializer(BaseDetailSerializer, serializers.ModelSerializer):
+class ContactDetailSerializer(BaseDetailSerializer):
     from lead.serializers import LeadSourceSerializer
 
     contact_owner = UserSerializer(read_only=True)

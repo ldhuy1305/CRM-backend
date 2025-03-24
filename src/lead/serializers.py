@@ -50,7 +50,7 @@ class LeadSerializer(BaseSerializer):
         return instance
 
 
-class LeadDetailSerializer(BaseDetailSerializer, serializers.ModelSerializer):
+class LeadDetailSerializer(BaseDetailSerializer):
     industry = IndustrySerializer(read_only=True)
     lead_source = LeadSourceSerializer(read_only=True)
     lead_status = LeadStatusSerializer(read_only=True)
