@@ -2,6 +2,9 @@ from __future__ import absolute_import, unicode_literals
 
 import os
 
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'api.settings')
 from celery import Celery
 
@@ -47,3 +50,13 @@ def send_notification_for_task(actor_id, recipient_id):
 def shared_task():
     print("Task is running!")
     return "Done"
+@app.task
+def send_notification_task(message):
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        "notifications",
+        {
+            "type": "send_notification",
+            "message": message
+        }
+    )

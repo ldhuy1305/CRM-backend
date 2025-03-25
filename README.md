@@ -44,6 +44,15 @@ Config environment for Django System in django .env file (`src/.env`)
 cd src
 cp .env.example .env
 ```
+
+### Docker
+
+```bash
+cd docker
+
+docker-compose up -d --build
+```
+
 ### Setup virtual envirement (venv) support project
 
 ```bash

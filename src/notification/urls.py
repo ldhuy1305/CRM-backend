@@ -3,9 +3,9 @@ from rest_framework.routers import SimpleRouter
 
 from notification.views import NotificationAPIView
 
+from notification import views
 router = SimpleRouter()
 # router.register(r"", NotificationViewSet, "notifications")
-
 urlpatterns = [
-    path("", NotificationAPIView.as_view(), name="notification"),
+    path("", views.notification_page_view, name="notification_page")
 ]
