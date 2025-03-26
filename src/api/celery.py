@@ -31,9 +31,13 @@ def send_notification_for_task(actor_id, recipient_id):
     from django_notification.models import Notification
     from django_notification.models.helper.enums.status_choices import NotificationStatus
     from authentication.models import User
+    from channels.layers import get_channel_layer
+    from asgiref.sync import async_to_sync
+
+    # Create the notification
     actor = User.objects.get(id=actor_id)
     recipients = User.objects.get(id=recipient_id)
-    Notification.objects.create_notification(
+    notification = Notification.objects.create_notification(
         verb="Logged in to Admin panel",
         actor=actor,
         recipients=[recipients],
@@ -43,13 +47,31 @@ def send_notification_for_task(actor_id, recipient_id):
         link="",
         is_sent=True,
     )
-    return "Thông báo đã được gửi thành công"
+
+    # Send WebSocket message to the recipient's group
+    channel_layer = get_channel_layer()
+    for recipient in recipients:
+        async_to_sync(channel_layer.group_send)(
+            f'user_{recipient.id}',
+            {
+                'type': 'send_notification',
+                'notification': {
+                    'id': notification.id,
+                    'verb': notification.verb,
+                    'status': notification.status,
+                    'description': notification.description,
+                    'link': notification.link,
+                }
+            }
+        )
 
 
 @app.task
 def shared_task():
     print("Task is running!")
     return "Done"
+
+
 @app.task
 def send_notification_task(message):
     channel_layer = get_channel_layer()

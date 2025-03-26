@@ -8,7 +8,7 @@ services:
       - "8000:8000"
     volumes:
       - ../src:/src
-    command: ash -c "cd /src && python manage.py migrate && python manage.py create_group_permission && python manage.py load_data && python manage.py runserver 0.0.0.0:8000"
+    command: ash -c "cd /src && python manage.py migrate && python manage.py create_group_permission && python manage.py load_data && daphne -b 0.0.0.0 -p 8000 api.asgi:application"
     tty: true
     restart: always
     depends_on:

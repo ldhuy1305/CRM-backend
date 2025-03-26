@@ -25,7 +25,7 @@ class NotificationAPIView(APIView):
         task, created = PeriodicTask.objects.get_or_create(
             name="notification-1",
             defaults=dict(
-                task="api.celery.send_notifica.etion_for_task",
+                task="api.celery.send_notification_for_task",
                 crontab=schedule,
                 args=json.dumps([actor, recipients])
             )
@@ -33,9 +33,15 @@ class NotificationAPIView(APIView):
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
 from django.shortcuts import render
+
 
 # Create your views here.
 
 def notification_page_view(request):
     return render(request, "notification_page.html")
+
+
+def notification_test(request):
+    return render(request, 'notifications_test.html')

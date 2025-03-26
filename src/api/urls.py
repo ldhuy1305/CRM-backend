@@ -22,7 +22,6 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 
 from api import settings
-from notification.consumers import NotificationConsumer
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -64,7 +63,3 @@ urlpatterns = (
         + staticfiles_urlpatterns()
         + schema_api_docs
 )
-
-websocket_urlpatterns = [
-    path("ws/notifications/", NotificationConsumer.as_asgi())
-]

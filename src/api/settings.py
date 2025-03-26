@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "django_notification",
     "django_filters",
     "django_celery_beat",
+    "channels",
     "notification",
     # user app
     "authentication",
@@ -185,6 +186,16 @@ SIMPLE_JWT = {
     "ALGORITHM": "HS256",
     "SIGNING_KEY": SECRET_KEY,
     "ROTATE_REFRESH_TOKENS": True,
+}
+
+# Channels
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('redis', 6379)],
+        },
+    },
 }
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
