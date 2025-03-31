@@ -48,6 +48,7 @@ class UserManager(BaseUserManager):
     def create_superuser(
         self,
         email,
+        username=None,
         password=None,
     ):
         if password is None:

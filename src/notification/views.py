@@ -1,11 +1,15 @@
 import json
 
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 from django_celery_beat.models import CrontabSchedule, PeriodicTask
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from authentication.models import User
+
+from api.celery import shared_task, send_notification_for_task
 
 
 class NotificationAPIView(APIView):
@@ -19,29 +23,40 @@ class NotificationAPIView(APIView):
             day_of_week='*'
         )
 
-        actor = User.objects.get(id=1).id
-        recipients = [User.objects.get(id=10).id]
-
         task, created = PeriodicTask.objects.get_or_create(
-            name="notification-1",
+            name="notification-3",
             defaults=dict(
                 task="api.celery.send_notification_for_task",
                 crontab=schedule,
-                args=json.dumps([actor, recipients])
+                args=json.dumps([1, '1']),
             )
         )
-
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    def get(self, request, *args, **kwargs):
+        user = User.objects.get(id=request.user.id)
+        result = send_notification_for_task.delay(user.id, user.id)
+        return Response({"message": "Task has been triggered", "task_id": result.id}, status=status.HTTP_200_OK)
 
 from django.shortcuts import render
 
+actor = User.objects.get(id=1).id
+recipients = [User.objects.get(id=1).id]
 
+
+# task, created = PeriodicTask.objects.get_or_create(
+#     name="notification-1",
+#     defaults=dict(
+#         task="api.celery.send_notification_for_task",
+#         crontab=schedule,
+#         args=json.dumps([actor, recipients])
+#     )
+# )
+# task, created = PeriodicTask.objects.get_or_create(
+#     name="notification-2",
+#     defaults=dict(
+#         task="api.celery.shared_task",
+#         crontab=schedule,
+#     )
+# )
 # Create your views here.
-
-def notification_page_view(request):
-    return render(request, "notification_page.html")
-
-
-def notification_test(request):
-    return render(request, 'notifications_test.html')

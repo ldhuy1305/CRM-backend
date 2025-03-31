@@ -8,28 +8,20 @@ services:
       - "8000:8000"
     volumes:
       - ../src:/src
-    command: ash -c "cd /src && python manage.py migrate && python manage.py create_group_permission && python manage.py load_data && daphne -b 0.0.0.0 -p 8000 api.asgi:application"
+    command: ash -c "cd /src && daphne -b 0.0.0.0 -p 8000 api.asgi:application"
     tty: true
-    restart: always
     depends_on:
-      - postgres
       - redis
     env_file:
       - ../src/.env
+    networks:
+      - my-network
   redis:
     image: redis:alpine
     ports:
       - "6379:6379"
-
-
-  postgres:
-    image: postgres:14-alpine
-    ports:
-      - "5432:5432"
-    env_file:
-      - ./.env
-    volumes:
-      - ./postgres:/var/lib/postgresql/data
+    networks:
+      - my-network
 
   celery:
     build:
@@ -39,14 +31,27 @@ services:
     volumes:
       - ../src:/src
     depends_on:
-      - postgres
       - redis
       - django
     env_file:
       - ../src/.env
+    networks:
+      - my-network
 
-volumes:
-  postgres:
+  celery-beat:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    command: ash -c "cd /src && celery -A api beat -l info"
+    volumes:
+      - ../src:/src
+    depends_on:
+      - redis
+      - celery
+    env_file:
+      - ../src/.env
+    networks:
+      - my-network
 
 networks:
   my-network:
