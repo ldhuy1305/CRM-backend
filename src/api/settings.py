@@ -61,6 +61,9 @@ INSTALLED_APPS = [
     "corsheaders",
     "django_notification",
     "django_filters",
+    "django_celery_beat",
+    "channels",
+    "notification",
     # user app
     "authentication",
     "group",
@@ -184,6 +187,16 @@ SIMPLE_JWT = {
     "SIGNING_KEY": SECRET_KEY,
     "ROTATE_REFRESH_TOKENS": True,
 }
+
+# Channels
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('redis', 6379)],
+        },
+    },
+}
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -194,6 +207,15 @@ TIME_ZONE = "Asia/Ho_Chi_Minh"
 USE_I18N = True
 
 USE_TZ = True
+
+# Celery
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", 'redis://redis:6379/0')
+CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND", 'redis://redis:6379/0')
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Ho_Chi_Minh'
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/

@@ -28,6 +28,10 @@
     ├── .pre-commit-config.yaml             - fomatter code
     ├── cronjob.sh                          - cronjob file
     ├── manage.py                           - manager project
+├── docker
+    ├── docker-compose.yml                  - Docker compose
+    ├── Dockerfile                          - Dockerfile
+├── src 
 ├── README.md
 ├── requirements.txt                        - package
 ```
@@ -40,6 +44,15 @@ Config environment for Django System in django .env file (`src/.env`)
 cd src
 cp .env.example .env
 ```
+
+### Docker
+
+```bash
+cd docker
+
+docker-compose up -d --build
+```
+
 ### Setup virtual envirement (venv) support project
 
 ```bash
