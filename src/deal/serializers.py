@@ -65,7 +65,7 @@ class DealSerializer(BaseSerializer):
         return instance
 
 
-class DealDetailSerializer(BaseDetailSerializer, serializers.ModelSerializer):
+class DealDetailSerializer(BaseDetailSerializer):
     from account.serializers import AccountDetailSerializer
 
     deal_owner = UserSerializer(read_only=True)

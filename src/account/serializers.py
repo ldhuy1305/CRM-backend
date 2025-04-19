@@ -35,7 +35,7 @@ class AccountSerializer(BaseSerializer):
         return instance
 
 
-class AccountDetailSerializer(BaseDetailSerializer, serializers.ModelSerializer):
+class AccountDetailSerializer(BaseDetailSerializer):
     account_owner = UserSerializer(read_only=True)
     account_type = AccountTypeSerializer(read_only=True)
     rating = RatingSerializer(read_only=True)
