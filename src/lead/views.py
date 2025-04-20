@@ -4,12 +4,32 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from common.views import SortAndFilterViewSet
-from lead.models import Lead
-from lead.serializers import ConvertSerializer, LeadDetailSerializer, LeadSerializer
-from utilities.permissions.custom_permissions import CustomPermission
+from lead.models import Lead, LeadSource, LeadStatus, Industry
+from lead.serializers import (
+    ConvertSerializer,
+    LeadDetailSerializer,
+    LeadSerializer,
+    LeadSourceSerializer,
+    LeadStatusSerializer,
+    IndustrySerializer)
+from utilities.permissions.custom_permissions import CustomPermission, IsAuthenticated
 
 # Create your views here.
 
+class LeadSourceViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = LeadSource.objects.all()
+    serializer_class = LeadSourceSerializer
+    permission_classes = [IsAuthenticated]
+
+class LeadStatusViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = LeadStatus.objects.all()
+    serializer_class = LeadStatusSerializer
+    permission_classes = [IsAuthenticated]
+
+class IndustryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Industry.objects.all()
+    serializer_class = IndustrySerializer
+    permission_classes = [IsAuthenticated]
 
 class LeadViewSet(SortAndFilterViewSet):
     http_method_names = ["get", "post", "put", "delete"]

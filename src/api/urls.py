@@ -47,7 +47,7 @@ urlpatterns = (
             re_path(f"api/{ver}/auth/", include("authentication.urls")),
             re_path(f"api/{ver}/group/", include("group.urls")),
             re_path(f"api/{ver}/users/", include("authentication.user_urls")),
-            re_path(f"api/{ver}/leads/", include("lead.urls")),
+            re_path(f"api/{ver}/", include("lead.urls")),
             re_path(f"api/{ver}/contacts/", include("contact.urls")),
             re_path(f"api/{ver}/accounts/", include("account.urls")),
             re_path(f"api/{ver}/deals/", include("deal.urls")),
