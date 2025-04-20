@@ -21,12 +21,10 @@ class LeadSourceViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LeadSourceSerializer
     permission_classes = [IsAuthenticated]
 
-
 class LeadStatusViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = LeadStatus.objects.all()
     serializer_class = LeadStatusSerializer
     permission_classes = [IsAuthenticated]
-
 
 class IndustryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Industry.objects.all()

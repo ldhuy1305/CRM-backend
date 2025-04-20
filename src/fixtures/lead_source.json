@@ -3,42 +3,112 @@
     "model": "lead.leadsource",
     "pk": 1,
     "fields": {
-      "name": "Website"
+      "name": "Quảng cáo"
     }
   },
   {
     "model": "lead.leadsource",
     "pk": 2,
     "fields": {
-      "name": "Social Media"
+      "name": "Gọi điện"
     }
   },
   {
     "model": "lead.leadsource",
     "pk": 3,
     "fields": {
-      "name": "Referral"
+      "name": "Giới thiệu từ nhân viên"
     }
   },
   {
     "model": "lead.leadsource",
     "pk": 4,
     "fields": {
-      "name": "Cold Call"
+      "name": "Giới thiệu từ bên ngoài"
     }
   },
   {
     "model": "lead.leadsource",
     "pk": 5,
     "fields": {
-      "name": "Event"
+      "name": "Cửa hàng trực tuyến"
     }
   },
   {
     "model": "lead.leadsource",
     "pk": 6,
     "fields": {
-      "name": "Email Campaign"
+      "name": "X (Twitter)"
+    }
+  },
+  {
+    "model": "lead.leadsource",
+    "pk": 7,
+    "fields": {
+      "name": "Facebook"
+    }
+  },
+  {
+    "model": "lead.leadsource",
+    "pk": 8,
+    "fields": {
+      "name": "Đối tác"
+    }
+  },
+  {
+    "model": "lead.leadsource",
+    "pk": 9,
+    "fields": {
+      "name": "Quan hệ đối nội"
+    }
+  },
+  {
+    "model": "lead.leadsource",
+    "pk": 10,
+    "fields": {
+      "name": "Quan hệ đối ngoại"
+    }
+  },
+  {
+    "model": "lead.leadsource",
+    "pk": 11,
+    "fields": {
+      "name": "Hội thảo đối tác"
+    }
+  },
+  {
+    "model": "lead.leadsource",
+    "pk": 12,
+    "fields": {
+      "name": "Hội thảo nội bộ"
+    }
+  },
+  {
+    "model": "lead.leadsource",
+    "pk": 13,
+    "fields": {
+      "name": "Hội trợ"
+    }
+  },
+  {
+    "model": "lead.leadsource",
+    "pk": 14,
+    "fields": {
+      "name": "Tải về từ Web"
+    }
+  },
+  {
+    "model": "lead.leadsource",
+    "pk": 15,
+    "fields": {
+      "name": "Nghiên cứu trên Web"
+    }
+  },
+  {
+    "model": "lead.leadsource",
+    "pk": 16,
+    "fields": {
+      "name": "Trò chuyện"
     }
   }
 ]

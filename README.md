@@ -114,6 +114,9 @@ python manage.py migrate
 # create master data group permission
 python manage.py create_group_permission
 
+# create fixtures data
+python manage.py load_data
+
 # create supper user
 python manage.py createsuperuser
 

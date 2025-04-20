@@ -1,0 +1,69 @@
+[
+  {
+    "model": "deal.lostreason",
+    "pk": 1,
+    "fields": {
+      "reason": "Kỳ vọng không khớp"
+    }
+  },
+  {
+    "model": "deal.lostreason",
+    "pk": 2,
+    "fields": {
+      "reason": "Giá"
+    }
+  },
+  {
+    "model": "deal.lostreason",
+    "pk": 3,
+    "fields": {
+      "reason": "Khách hàng không đủ điều kiện"
+    }
+  },
+  {
+    "model": "deal.lostreason",
+    "pk": 4,
+    "fields": {
+      "reason": "Thiếu phản hồi"
+    }
+  },
+  {
+    "model": "deal.lostreason",
+    "pk": 5,
+    "fields": {
+      "reason": "Theo dõi bỏ lỡ"
+    }
+  },
+
+  {
+    "model": "deal.lostreason",
+    "pk": 6,
+    "fields": {
+      "reason": "Mục Tiêu Sai"
+    }
+  },
+
+  {
+    "model": "deal.lostreason",
+    "pk": 7,
+    "fields": {
+      "reason": "Cạnh tranh"
+    }
+  },
+
+  {
+    "model": "deal.lostreason",
+    "pk": 8,
+    "fields": {
+      "reason": "Lợi ích trong tương lai"
+    }
+  },
+
+  {
+    "model": "deal.lostreason",
+    "pk": 9,
+    "fields": {
+      "reason": "Khác"
+    }
+  }
+]

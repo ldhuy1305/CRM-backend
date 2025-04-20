@@ -50,7 +50,7 @@ class LeadSerializer(BaseSerializer):
         return instance
 
 
-class LeadDetailSerializer(BaseDetailSerializer, serializers.ModelSerializer):
+class LeadDetailSerializer(BaseDetailSerializer):
     industry = IndustrySerializer(read_only=True)
     lead_source = LeadSourceSerializer(read_only=True)
     lead_status = LeadStatusSerializer(read_only=True)
@@ -79,7 +79,7 @@ class ConvertSerializer(serializers.Serializer):
 
         data_contact = instance.get_data_contact_from_lead()
         contact = Contact.objects.create(
-            **data_contact, contact_owner=user, created_by=user_create
+            **data_contact, contact_owner=user, created_by=user_create, account=account
         )
 
         instance.delete()

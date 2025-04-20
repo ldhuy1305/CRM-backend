@@ -83,7 +83,7 @@ class Command(BaseCommand):
                 *self._get_full_permission(Lead),
                 (ActionEnum.CONVERT.value, Lead),
                 *self._get_full_permission(Contact),
-                *self._get_full_permission(Account),
+                (ActionEnum.VIEW.value, Account),
                 *self._get_full_permission(Deal),
                 (ActionEnum.CLOSE.value, Deal),
                 (ActionEnum.VIEW.value, Campaign),
@@ -97,23 +97,16 @@ class Command(BaseCommand):
                 (ActionEnum.VIEW.value, Lead),
                 (ActionEnum.ADD.value, Lead),
                 (ActionEnum.CHANGE.value, Lead),
-                (ActionEnum.VIEW.value, Contact),
-                (ActionEnum.ADD.value, Contact),
-                (ActionEnum.CHANGE.value, Contact),
-                (ActionEnum.VIEW.value, Account),
-                (ActionEnum.ADD.value, Account),
-                (ActionEnum.CHANGE.value, Account),
-                (ActionEnum.VIEW.value, Deal),
                 *self._get_full_permission(Campaign),
                 *self._get_full_permission(Task),
                 (ActionEnum.COMPLETE.value, Task),
                 *self._get_full_permission(Meeting),
-                *self._get_full_permission(Call),
                 (ActionEnum.VIEW.value, User),
             ],
         }
         for group_name, permissions in permissions.items():
             group = Group.objects.get(name=group_name)
+            group.permissions.clear()
             for action, model in permissions:
                 codename = f"{action}_{model._meta.model_name}"
                 permission = Permission.objects.filter(codename=codename).first()

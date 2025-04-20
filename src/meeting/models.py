@@ -5,6 +5,7 @@ from common.models import BaseModel, TimestampedModel
 from contact.models import Contact
 from lead.models import Lead
 
+
 # Create your models here.
 
 
@@ -37,9 +38,11 @@ class MeetingParticipant(TimestampedModel):
         related_name="meetings_participated",
     )
     contact = models.ForeignKey(
-        Contact, on_delete=models.SET_NULL, null=True, blank=True
+        Contact, on_delete=models.SET_NULL, null=True, blank=True,
+        related_name="meetings_participated",
     )
-    lead = models.ForeignKey(Lead, on_delete=models.SET_NULL, null=True, blank=True)
+    lead = models.ForeignKey(Lead, on_delete=models.SET_NULL, null=True, blank=True,
+                             related_name="meetings_participated", )
 
     class Meta:
         ordering = ["-id"]

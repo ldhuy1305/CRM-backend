@@ -22,6 +22,7 @@ class CustomPermission(BasePermission):
         permission_all_map = {
             "list": f"viewall_{model_name}",
             "create": f"addall_{model_name}",
+            "get_list_stage": f"close_{model_name}",
         }
 
         permission_map = {

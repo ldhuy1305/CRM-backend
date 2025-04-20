@@ -58,3 +58,10 @@ class Contact(BaseModel):
     class Meta:
         ordering = ["-id"]
         db_table = "contact"
+
+    def get_full_name(self):
+        try:
+            full_name = f"{self.last_name} {self.first_name}"
+        except AttributeError:
+            full_name = self.email
+        return full_name.strip()

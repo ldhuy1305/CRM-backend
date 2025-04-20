@@ -4,6 +4,7 @@ from api import settings
 from authentication.models import User
 from common.models import BaseModel, BaseNameModel, CustomModel, TimestampedModel
 
+
 # Create your models here.
 
 
@@ -57,10 +58,36 @@ class Lead(BaseModel, CustomModel):
 
     description = models.TextField(null=True, blank=True)
 
+    #
+    # SEARCH_FIELDS = {
+    #
+    #     "annual_revenue": ,
+    # }
+
+    SEARCH_FIELDS = dict(
+        annual_revenue="annual_revenue",
+    )
+
+    SEARCH_FIELDS_CONTAINS = dict(
+        first_name="first_name",
+        last_name="last_name",
+        company_name=company_name,
+        email="email",
+        phone="phone",
+    )
+    SORT_BY = ["first_name", "last_name", "company_name", "email"]
+
     class Meta:
         ordering = ["-id"]
         db_table = "lead"
         app_label = "lead"
+
+    def get_full_name(self):
+        try:
+            full_name = f"{self.last_name} {self.first_name}"
+        except AttributeError:
+            full_name = self.email
+        return full_name.strip()
 
     def get_data_contact_from_lead(self):
         return dict(
