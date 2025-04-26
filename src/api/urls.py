@@ -52,6 +52,7 @@ urlpatterns = (
         re_path(f"api/{ver}/accounts/", include("account.urls")),
         re_path(f"api/{ver}/deals/", include("deal.urls")),
         re_path(f"api/{ver}/meetings/", include("meeting.urls")),
+        re_path(f"api/{ver}/tasks/", include("task.urls")),
         # re_path(
         #     f"api/{ver}/notification/",
         #     include("django_notification.api.routers.notification"),
