@@ -1,14 +1,14 @@
-from django.urls import include, re_path
+from django.urls import include, re_path, path
 from rest_framework.routers import SimpleRouter
 
-from lead.views import LeadViewSet, LeadSourceViewSet, LeadStatusViewSet, IndustryViewSet
+from lead.views import LeadViewSet, LeadSourceAPIView,  LeadStatusAPIView, IndustryAPIView
 
 router = SimpleRouter()
-router.register(r"leads", LeadViewSet, "leads")
-router.register(r"lead-sources", LeadSourceViewSet, "lead_sources")
-router.register(r"lead-statuses", LeadStatusViewSet, "lead_statuses")
-router.register(r"industries", IndustryViewSet, "industries")
+router.register(r"", LeadViewSet, "leads")
 
 urlpatterns = [
-    re_path(r"^", include(router.urls)),
+    path("sources/", LeadSourceAPIView.as_view(), name="lead-source-list"),
+    path("statuses/", LeadStatusAPIView.as_view(), name="lead-status-list"),
+    path("industries/", IndustryAPIView.as_view(), name="industry-list"),
+    path("", include(router.urls)),
 ]

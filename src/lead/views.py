@@ -1,5 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import status, viewsets
+from rest_framework import status, viewsets, views
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -15,21 +15,6 @@ from lead.serializers import (
 from utilities.permissions.custom_permissions import CustomPermission, IsAuthenticated
 
 # Create your views here.
-
-class LeadSourceViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = LeadSource.objects.all()
-    serializer_class = LeadSourceSerializer
-    permission_classes = [IsAuthenticated]
-
-class LeadStatusViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = LeadStatus.objects.all()
-    serializer_class = LeadStatusSerializer
-    permission_classes = [IsAuthenticated]
-
-class IndustryViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Industry.objects.all()
-    serializer_class = IndustrySerializer
-    permission_classes = [IsAuthenticated]
 
 class LeadViewSet(SortAndFilterViewSet):
     http_method_names = ["get", "post", "put", "delete"]
@@ -103,3 +88,34 @@ class LeadViewSet(SortAndFilterViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.update(instance=instance, validated_data=serializer.validated_data)
         return Response(data={"msg": "Convert successfully"}, status=status.HTTP_200_OK)
+
+class LeadSourceAPIView(views.APIView):
+    serializer_class = LeadSourceSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        queryset = LeadSource.objects.all()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class LeadStatusAPIView(views.APIView):
+    serializer_class = LeadStatusSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        queryset = LeadStatus.objects.all()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class IndustryAPIView(views.APIView):
+    serializer_class = IndustrySerializer
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        try:
+            queryset = Industry.objects.all()
+            serializer = self.serializer_class(queryset, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
