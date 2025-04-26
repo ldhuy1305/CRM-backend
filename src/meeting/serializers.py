@@ -8,7 +8,7 @@ from meeting.models import Meeting, MeetingParticipant
 class ParticipantSerializer(serializers.ModelSerializer):
     class Meta:
         model = MeetingParticipant
-        fields = ('user', 'contact', 'lead')
+        fields = ("user", "contact", "lead")
 
 
 class MeetingSerializer(BaseSerializer):
@@ -21,7 +21,7 @@ class MeetingSerializer(BaseSerializer):
     @transaction.atomic
     def create(self, validated_data):
         super().create(validated_data)
-        participants = validated_data.pop('participants')
+        participants = validated_data.pop("participants")
         meeting = Meeting.objects.create(**validated_data)
 
         # bulk create meeting participants
@@ -30,9 +30,9 @@ class MeetingSerializer(BaseSerializer):
             meeting_participants.append(
                 MeetingParticipant(
                     meeting=meeting,
-                    user=participant['user'],
-                    contact=participant['contact'],
-                    lead=participant['lead'],
+                    user=participant["user"],
+                    contact=participant["contact"],
+                    lead=participant["lead"],
                 )
             )
         MeetingParticipant.objects.bulk_create(meeting_participants)

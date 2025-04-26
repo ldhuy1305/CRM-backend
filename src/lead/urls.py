@@ -1,7 +1,12 @@
-from django.urls import include, re_path, path
+from django.urls import include, path, re_path
 from rest_framework.routers import SimpleRouter
 
-from lead.views import LeadViewSet, LeadSourceAPIView,  LeadStatusAPIView, IndustryAPIView
+from lead.views import (
+    IndustryAPIView,
+    LeadSourceAPIView,
+    LeadStatusAPIView,
+    LeadViewSet,
+)
 
 router = SimpleRouter()
 router.register(r"", LeadViewSet, "leads")

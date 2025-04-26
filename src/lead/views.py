@@ -1,20 +1,22 @@
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import status, viewsets, views
+from rest_framework import status, views, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from common.views import SortAndFilterViewSet
-from lead.models import Lead, LeadSource, LeadStatus, Industry
+from lead.models import Industry, Lead, LeadSource, LeadStatus
 from lead.serializers import (
     ConvertSerializer,
+    IndustrySerializer,
     LeadDetailSerializer,
     LeadSerializer,
     LeadSourceSerializer,
     LeadStatusSerializer,
-    IndustrySerializer)
+)
 from utilities.permissions.custom_permissions import CustomPermission, IsAuthenticated
 
 # Create your views here.
+
 
 class LeadViewSet(SortAndFilterViewSet):
     http_method_names = ["get", "post", "put", "delete"]
@@ -89,6 +91,7 @@ class LeadViewSet(SortAndFilterViewSet):
         serializer.update(instance=instance, validated_data=serializer.validated_data)
         return Response(data={"msg": "Convert successfully"}, status=status.HTTP_200_OK)
 
+
 class LeadSourceAPIView(views.APIView):
     serializer_class = LeadSourceSerializer
     permission_classes = [IsAuthenticated]
@@ -107,6 +110,7 @@ class LeadStatusAPIView(views.APIView):
         queryset = LeadStatus.objects.all()
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 class IndustryAPIView(views.APIView):
     serializer_class = IndustrySerializer
