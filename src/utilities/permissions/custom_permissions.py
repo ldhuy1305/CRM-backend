@@ -70,6 +70,7 @@ class CustomPermission(BasePermission):
             "partial_update": f"change_{model_name}",
             "destroy": f"delete_{model_name}",
             "convert": f"convert_{model_name}",
+            "complete": f"complete_{model_name}",
         }
         if self._user_has_permission(
             user, app_label, permission_all_map.get(view.action)

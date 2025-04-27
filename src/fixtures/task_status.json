@@ -1,0 +1,37 @@
+[
+  {
+    "model": "task.taskstatus",
+    "pk": 1,
+    "fields": {
+      "name": "Chưa bắt đầu"
+    }
+  },
+  {
+    "model": "task.taskstatus",
+    "pk": 2,
+    "fields": {
+      "name": "Hoãn lại"
+    }
+  },
+    {
+    "model": "task.taskstatus",
+    "pk": 3,
+    "fields": {
+      "name": "Đang trong tiến trình"
+    }
+  },
+    {
+    "model": "task.taskstatus",
+    "pk": 4,
+    "fields": {
+      "name": "Hoàn thành"
+    }
+  },
+    {
+    "model": "task.taskstatus",
+    "pk": 5,
+    "fields": {
+      "name": "Đang chờ nhập"
+    }
+  }
+]
