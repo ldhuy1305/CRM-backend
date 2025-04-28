@@ -41,9 +41,26 @@ class MeetingSerializer(BaseSerializer):
 
     def update(self, instance, validated_data):
         super().update(instance, validated_data)
+        participants = validated_data.pop("participants")
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         instance.save()
+
+        MeetingParticipant.objects.filter(meeting=instance).delete()
+
+        # bulk create meeting participants
+        meeting_participants = []
+        for participant in participants:
+            meeting_participants.append(
+                MeetingParticipant(
+                    meeting=instance,
+                    user=participant["user"],
+                    contact=participant["contact"],
+                    lead=participant["lead"],
+                )
+            )
+        MeetingParticipant.objects.bulk_create(meeting_participants)
+
         return instance
 
 
