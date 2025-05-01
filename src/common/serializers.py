@@ -16,7 +16,7 @@ class BaseSerializer(serializers.ModelSerializer):
 
 class BaseNameSerializer(serializers.ModelSerializer):
     class Meta:
-        model = BaseNameModel
+        model: BaseNameModel
         fields = ["id", "name"]
 
 

@@ -1,0 +1,30 @@
+[
+  {
+    "model": "campaign.campaignstatus",
+    "pk": 1,
+    "fields": {
+      "name": "Đang kế hoạch"
+    }
+  },
+  {
+    "model": "campaign.campaignstatus",
+    "pk": 2,
+    "fields": {
+      "name": "Có hoạt động"
+    }
+  },
+  {
+    "model": "campaign.campaignstatus",
+    "pk": 3,
+    "fields": {
+      "name": "Không hoạt động"
+    }
+  },
+  {
+    "model": "campaign.campaignstatus",
+    "pk": 4,
+    "fields": {
+      "name": "Hoàn thành"
+    }
+  }
+]
