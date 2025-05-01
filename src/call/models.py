@@ -64,6 +64,8 @@ class Call(BaseModel):
 
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
+    voice_recording = models.TextField(blank=True, null=True)
+    call_agenda = models.TextField(blank=True, null=True)
     start_time = models.DateTimeField()
     duration = models.IntegerField()
 

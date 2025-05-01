@@ -1,0 +1,44 @@
+[
+  {
+    "model": "call.callresult",
+    "pk": 1,
+    "fields": {
+      "name": "Quan tâm"
+    }
+  },
+  {
+    "model": "call.callresult",
+    "pk": 2,
+    "fields": {
+      "name": "Không quan tâm"
+    }
+  },
+  {
+    "model": "call.callresult",
+    "pk": 3,
+    "fields": {
+      "name": "Không trả lời/Bận"
+    }
+  },
+  {
+    "model": "call.callresult",
+    "pk": 4,
+    "fields": {
+      "name": "Đã yêu cầu thêm thông tin"
+    }
+  },
+  {
+    "model": "call.callresult",
+    "pk": 5,
+    "fields": {
+      "name": "Đã yêu cầu gọi lại"
+    }
+  },
+  {
+    "model": "call.callresult",
+    "pk": 6,
+    "fields": {
+      "name": "Số không hợp lệ"
+    }
+  }
+]

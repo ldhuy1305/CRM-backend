@@ -1,0 +1,44 @@
+[
+  {
+    "model": "call.callpurpose",
+    "pk": 1,
+    "fields": {
+      "name": "Triển vọng"
+    }
+  },
+  {
+    "model": "call.callpurpose",
+    "pk": 2,
+    "fields": {
+      "name": "Quản trị"
+    }
+  },
+  {
+    "model": "call.callpurpose",
+    "pk": 3,
+    "fields": {
+      "name": "Đàm phán"
+    }
+  },
+  {
+    "model": "call.callpurpose",
+    "pk": 4,
+    "fields": {
+      "name": "Bản giới thiệu"
+    }
+  },
+  {
+    "model": "call.callpurpose",
+    "pk": 5,
+    "fields": {
+      "name": "Dự án"
+    }
+  },
+  {
+    "model": "call.callpurpose",
+    "pk": 6,
+    "fields": {
+      "name": "Desk"
+    }
+  }
+]
