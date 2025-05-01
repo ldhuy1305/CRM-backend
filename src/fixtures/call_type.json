@@ -1,0 +1,23 @@
+[
+  {
+    "model": "call.calltype",
+    "pk": 1,
+    "fields": {
+      "name": "Đi"
+    }
+  },
+  {
+    "model": "call.calltype",
+    "pk": 2,
+    "fields": {
+      "name": "Đến"
+    }
+  },
+  {
+    "model": "call.calltype",
+    "pk": 3,
+    "fields": {
+      "name": "Nhỡ"
+    }
+  }
+]

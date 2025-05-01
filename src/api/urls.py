@@ -54,6 +54,7 @@ urlpatterns = (
         re_path(f"api/{ver}/meetings/", include("meeting.urls")),
         re_path(f"api/{ver}/tasks/", include("task.urls")),
         re_path(f"api/{ver}/campaigns/", include("campaign.urls")),
+        re_path(f"api/{ver}/calls/", include("call.urls")),
         # re_path(
         #     f"api/{ver}/notification/",
         #     include("django_notification.api.routers.notification"),
