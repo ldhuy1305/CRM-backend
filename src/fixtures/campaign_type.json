@@ -1,0 +1,86 @@
+[
+  {
+    "model": "campaign.campaigntype",
+    "pk": 1,
+    "fields": {
+      "name": "Hội thảo"
+    }
+  },
+  {
+    "model": "campaign.campaigntype",
+    "pk": 2,
+    "fields": {
+      "name": "Webinar"
+    }
+  },
+  {
+    "model": "campaign.campaigntype",
+    "pk": 3,
+    "fields": {
+      "name": "Hội trợ"
+    }
+  },
+  {
+    "model": "campaign.campaigntype",
+    "pk": 4,
+    "fields": {
+      "name": "Quan hệ Đối ngoại"
+    }
+  },
+  {
+    "model": "campaign.campaigntype",
+    "pk": 5,
+    "fields": {
+      "name": "Đối tác"
+    }
+  },
+  {
+    "model": "campaign.campaigntype",
+    "pk": 6,
+    "fields": {
+      "name": "Chương trình tham chiếu"
+    }
+  },
+  {
+    "model": "campaign.campaigntype",
+    "pk": 7,
+    "fields": {
+      "name": "Quảng cáo"
+    }
+  },
+  {
+    "model": "campaign.campaigntype",
+    "pk": 8,
+    "fields": {
+      "name": "Quảng cáo Banner"
+    }
+  },
+  {
+    "model": "campaign.campaigntype",
+    "pk": 9,
+    "fields": {
+      "name": "Thư gửi trực tiếp"
+    }
+  },
+  {
+    "model": "campaign.campaigntype",
+    "pk": 10,
+    "fields": {
+      "name": "Email"
+    }
+  },
+  {
+    "model": "campaign.campaigntype",
+    "pk": 11,
+    "fields": {
+      "name": "Tiếp thị khác"
+    }
+  },
+  {
+    "model": "campaign.campaigntype",
+    "pk": 12,
+    "fields": {
+      "name": "Khác"
+    }
+  }
+]
