@@ -1,7 +1,8 @@
 from django.db.models import Q, QuerySet
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 
 from api.constants import SortOderEnum
+from utilities.permissions.custom_permissions import IsAuthenticated
 
 
 class SortAndFilterViewSet(viewsets.ModelViewSet):
@@ -69,3 +70,16 @@ class SortAndFilterViewSet(viewsets.ModelViewSet):
         elif sort_order == SortOderEnum.DESC.value:
             queryset = queryset.order_by(f"-{sort_by}")
         return queryset
+
+
+class ListAPIView(generics.ListAPIView):
+    model = None
+    serializer_class = None
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        queryset = self.model.objects.all()
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
