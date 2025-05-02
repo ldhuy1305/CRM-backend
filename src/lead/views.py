@@ -1,9 +1,9 @@
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import status, views, viewsets
+from rest_framework import generics, status, views, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from common.views import SortAndFilterViewSet
+from common.views import ListAPI, SortAndFilterViewSet
 from lead.models import Industry, Lead, LeadSource, LeadStatus
 from lead.serializers import (
     ConvertSerializer,
@@ -92,34 +92,13 @@ class LeadViewSet(SortAndFilterViewSet):
         return Response(data={"msg": "Convert successfully"}, status=status.HTTP_200_OK)
 
 
-class LeadSourceAPIView(views.APIView):
+class LeadSourceAPIView(ListAPI):
     serializer_class = LeadSourceSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, *args, **kwargs):
-        queryset = LeadSource.objects.all()
-        serializer = self.serializer_class(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class LeadStatusAPIView(views.APIView):
-    serializer_class = LeadStatusSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, *args, **kwargs):
-        queryset = LeadStatus.objects.all()
-        serializer = self.serializer_class(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-class IndustryAPIView(views.APIView):
+class LeadStatusAPIView(ListAPI):
     serializer_class = IndustrySerializer
-    permission_classes = [IsAuthenticated]
 
-    def get(self, request, *args, **kwargs):
-        try:
-            queryset = Industry.objects.all()
-            serializer = self.serializer_class(queryset, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except Exception as e:
-            print(e)
+
+class IndustryAPI(ListAPI):
+    serializer_class = IndustrySerializer

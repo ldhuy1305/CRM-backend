@@ -3,12 +3,14 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from common.views import SortAndFilterViewSet
+from common.views import ListAPI, SortAndFilterViewSet
 from task.models import Task
 from task.serializers import (
+    PrioritySerializer,
     TaskCompleteSerializer,
     TaskDetailSerializer,
     TaskSerializer,
+    TaskStatusSerializer,
 )
 from utilities.permissions.custom_permissions import CustomPermission
 
@@ -89,3 +91,11 @@ class TaskViewSet(SortAndFilterViewSet):
         data = serializer.update(instance=instance)
 
         return Response(TaskDetailSerializer(data).data, status=status.HTTP_200_OK)
+
+
+class TaskStatusAPI(ListAPI):
+    serializer_class = TaskStatusSerializer
+
+
+class PriorityAPI(ListAPI):
+    serializer_class = PrioritySerializer
