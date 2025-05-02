@@ -3,9 +3,14 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from common.views import SortAndFilterViewSet
+from common.views import ListAPI, SortAndFilterViewSet
 from deal.models import Deal, Stage
-from deal.serializers import DealDetailSerializer, DealSerializer, StageDetailSerializer
+from deal.serializers import (
+    DealDetailSerializer,
+    DealSerializer,
+    LostReasonDetailSerializer,
+    StageDetailSerializer,
+)
 from utilities.permissions.custom_permissions import CustomPermission
 
 # Create your views here.
@@ -92,3 +97,11 @@ class DealViewSet(SortAndFilterViewSet):
             ).data,
             status=status.HTTP_200_OK,
         )
+
+
+class LostReasonAPI(ListAPI):
+    serializer_class = LostReasonDetailSerializer
+
+
+class StageAPI(ListAPI):
+    serializer_class = StageDetailSerializer

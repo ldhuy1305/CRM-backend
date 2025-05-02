@@ -2,8 +2,14 @@ from rest_framework import status, views, viewsets
 from rest_framework.response import Response
 
 from call.models import Call, CallType
-from call.serializers import CallDetailSerializer, CallSerializer
-from common.views import SortAndFilterViewSet
+from call.serializers import (
+    CallDetailSerializer,
+    CallPurposeDetailSerializer,
+    CallResultDetailSerializer,
+    CallSerializer,
+    CallTypeDetailSerializer,
+)
+from common.views import ListAPI, SortAndFilterViewSet
 from utilities.permissions.custom_permissions import CustomPermission, IsAuthenticated
 
 # Create your views here.
@@ -65,3 +71,15 @@ class CallViewSet(SortAndFilterViewSet):
         )
 
         return Response(CallDetailSerializer(data).data, status=status.HTTP_200_OK)
+
+
+class CallTypeAPI(ListAPI):
+    serializer_class = CallTypeDetailSerializer
+
+
+class CallPurposeAPI(ListAPI):
+    serializer_class = CallPurposeDetailSerializer
+
+
+class CallResultAPI(ListAPI):
+    serializer_class = CallResultDetailSerializer

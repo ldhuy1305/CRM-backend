@@ -1,8 +1,14 @@
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 
-from account.models import Account
-from account.serializers import AccountDetailSerializer, AccountSerializer
+from account.models import Account, AccountType, Rating
+from account.serializers import (
+    AccountDetailSerializer,
+    AccountSerializer,
+    AccountTypeSerializer,
+    RatingSerializer,
+)
+from common.views import ListAPI
 from contact.models import Contact
 from utilities.permissions.custom_permissions import CustomPermission
 
@@ -70,3 +76,11 @@ class AccountViewSet(viewsets.ModelViewSet):
         )
 
         return Response(AccountDetailSerializer(data).data, status=status.HTTP_200_OK)
+
+
+class RatingAPI(ListAPI):
+    serializer_class = RatingSerializer
+
+
+class AccountTypeAPI(ListAPI):
+    serializer_class = AccountTypeSerializer

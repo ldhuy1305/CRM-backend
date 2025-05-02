@@ -1,9 +1,9 @@
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import status, views, viewsets, generics
+from rest_framework import generics, status, views, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from common.views import SortAndFilterViewSet, ListAPIView
+from common.views import ListAPI, SortAndFilterViewSet
 from lead.models import Industry, Lead, LeadSource, LeadStatus
 from lead.serializers import (
     ConvertSerializer,
@@ -92,14 +92,13 @@ class LeadViewSet(SortAndFilterViewSet):
         return Response(data={"msg": "Convert successfully"}, status=status.HTTP_200_OK)
 
 
-class LeadSourceAPIView(generics.ListAPIView):
+class LeadSourceAPIView(ListAPI):
     serializer_class = LeadSourceSerializer
-    model = LeadSource
 
-class LeadStatusAPIView(generics.ListAPIView):
-    serializer_class = IndustrySerializer
-    model = LeadStatus
 
-class IndustryAPIView(ListAPIView):
+class LeadStatusAPIView(ListAPI):
     serializer_class = IndustrySerializer
-    model = Industry
+
+
+class IndustryAPI(ListAPI):
+    serializer_class = IndustrySerializer

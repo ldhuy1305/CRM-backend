@@ -1,5 +1,6 @@
 from django.db.models import Q, QuerySet
-from rest_framework import viewsets, generics
+from rest_framework import generics, viewsets
+from rest_framework.serializers import ModelSerializer
 
 from api.constants import SortOderEnum
 from utilities.permissions.custom_permissions import IsAuthenticated
@@ -72,10 +73,13 @@ class SortAndFilterViewSet(viewsets.ModelViewSet):
         return queryset
 
 
-class ListAPIView(generics.ListAPIView):
-    model = None
+class ListAPI(generics.ListAPIView):
     serializer_class = None
     permission_classes = [IsAuthenticated]
+
+    @property
+    def model(self):
+        return self.serializer_class.Meta.model
 
     def get(self, request, *args, **kwargs):
         queryset = self.model.objects.all()
