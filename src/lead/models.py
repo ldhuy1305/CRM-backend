@@ -70,7 +70,7 @@ class Lead(BaseModel, CustomModel):
     SEARCH_FIELDS_CONTAINS = dict(
         first_name="first_name",
         last_name="last_name",
-        company_name=company_name,
+        company="company_name",
         email="email",
         phone="phone",
     )
