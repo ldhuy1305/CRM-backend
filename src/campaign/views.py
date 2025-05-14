@@ -8,7 +8,7 @@ from campaign.serializers import (
     CampaignStatusDetailSerializer,
     CampaignTypeSerializer,
 )
-from common.views import SortAndFilterViewSet
+from common.views import SortAndFilterViewSet, ListAPI
 from utilities.permissions.custom_permissions import CustomPermission, IsAuthenticated
 
 # Create your views here.
@@ -72,3 +72,12 @@ class CampaignViewSet(SortAndFilterViewSet):
         )
 
         return Response(CampaignDetailSerializer(data).data, status=status.HTTP_200_OK)
+
+
+
+class CampaignStatusAPIView(ListAPI):
+    serializer_class = CampaignStatusDetailSerializer
+
+
+class CampaignTypeAPIView(ListAPI):
+    serializer_class = CampaignTypeSerializer
