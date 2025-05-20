@@ -55,6 +55,18 @@ class Contact(BaseModel):
 
     description = models.TextField(blank=True, null=True)
 
+    SEARCH_FIELDS_CONTAINS = dict(
+        first_name="first_name",
+        company="company_name",
+        email="email",
+        phone="phone",
+    )
+
+    SEARCH_FIELDS = dict(
+        account="account",
+        contact_owner="contact_owner",
+    )
+
     class Meta:
         ordering = ["-id"]
         db_table = "contact"

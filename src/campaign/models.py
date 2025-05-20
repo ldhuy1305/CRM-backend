@@ -45,6 +45,19 @@ class Campaign(BaseModel):
     expected_response = models.FloatField(null=True, blank=True)
     numbers_sent = models.IntegerField(null=True, blank=True)
 
+    SEARCH_FIELDS_CONTAINS = dict(
+        name="name",
+        company="company_name",
+    )
+
+    SEARCH_FIELDS = dict(
+        type="campaign_type",
+        status="campaign_status",
+        start_date="start_date",
+        end_date="end_date",
+        campaign_owner="campaign_owner",
+    )
+
     class Meta:
         ordering = ["-id"]
         db_table = "campaign"
