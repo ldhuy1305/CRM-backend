@@ -8,16 +8,17 @@ from account.serializers import (
     AccountTypeSerializer,
     RatingSerializer,
 )
-from common.views import ListAPI
+from common.views import ListAPI, SortAndFilterViewSet
 from contact.models import Contact
 from utilities.permissions.custom_permissions import CustomPermission
 
 # Create your views here.
 
 
-class AccountViewSet(viewsets.ModelViewSet):
+class AccountViewSet(SortAndFilterViewSet):
     http_method_names = ["get", "post", "put", "delete"]
     permission_classes = [CustomPermission]
+    model = Account
 
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:
@@ -29,11 +30,8 @@ class AccountViewSet(viewsets.ModelViewSet):
         return Account.objects.all()
 
     def list(self, request, *args, **kwargs):
-        is_view_all = getattr(request, "is_view_all", None)
-        queryset = self.get_queryset()
-        if not is_view_all:
-            contacts = Contact.objects.filter(created_by=self.request.user)
-            queryset = queryset.filter(contacts__in=contacts).distinct()
+        queryset = self.get_queryset_by_filter(queryset=self.get_queryset())
+        queryset = self.get_queryset_by_sort(queryset)
 
         page = self.paginate_queryset(queryset)
         if page is not None:

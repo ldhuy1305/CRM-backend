@@ -58,6 +58,19 @@ class Deal(BaseModel):
     def __str__(self):
         return self.name
 
+    SEARCH_FIELDS_CONTAINS = dict(
+        name="name",
+        company="company_name",
+    )
+
+    SEARCH_FIELDS = dict(
+        type="campaign_type",
+        status="campaign_status",
+        start_date="start_date",
+        end_date="end_date",
+        campaign_owner="campaign_owner",
+    )
+
     class Meta:
         ordering = ["-id"]
         db_table = "deal"

@@ -63,6 +63,16 @@ class Account(BaseModel):
 
     description = models.TextField(blank=True, null=True)
 
+    SEARCH_FIELDS_CONTAINS = dict(
+        name="name",
+        website="website",
+        phone="phone",
+    )
+
+    SEARCH_FIELDS = dict(
+        account_owner="account_owner",
+    )
+
     class Meta:
         ordering = ["-id"]
         db_table = "account"

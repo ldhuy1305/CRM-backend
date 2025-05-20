@@ -63,16 +63,17 @@ class Lead(BaseModel, CustomModel):
     #     "annual_revenue": ,
     # }
 
-    SEARCH_FIELDS = dict(
-        annual_revenue="annual_revenue",
-    )
-
     SEARCH_FIELDS_CONTAINS = dict(
         first_name="first_name",
         last_name="last_name",
         company="company_name",
         email="email",
         phone="phone",
+    )
+
+    SEARCH_FIELDS = dict(
+        source="lead_source",
+        owner="lead_owner",
     )
     SORT_BY = ["first_name", "last_name", "company_name", "email"]
 

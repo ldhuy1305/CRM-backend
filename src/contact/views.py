@@ -1,6 +1,7 @@
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 
+from common.views import SortAndFilterViewSet
 from contact.models import Contact
 from contact.serializers import ContactDetailSerializer, ContactSerializer
 from utilities.permissions.custom_permissions import CustomPermission
@@ -8,9 +9,10 @@ from utilities.permissions.custom_permissions import CustomPermission
 # Create your views here.
 
 
-class ContactViewSet(viewsets.ModelViewSet):
+class ContactViewSet(SortAndFilterViewSet):
     http_method_names = ["get", "post", "put", "delete"]
     permission_classes = [CustomPermission]
+    model = Contact
 
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:
@@ -22,11 +24,8 @@ class ContactViewSet(viewsets.ModelViewSet):
         return Contact.objects.all()
 
     def list(self, request, *args, **kwargs):
-        is_view_all = getattr(request, "is_view_all", None)
-        queryset = self.get_queryset()
-        if not is_view_all:
-            queryset = queryset.filter(created_by=self.request.user)
-
+        queryset = self.get_queryset_by_filter(queryset=self.get_queryset())
+        queryset = self.get_queryset_by_sort(queryset)
         page = self.paginate_queryset(queryset)
         if page is not None:
             serialize = self.get_serializer(page, many=True)
