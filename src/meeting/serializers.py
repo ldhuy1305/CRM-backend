@@ -1,7 +1,12 @@
 from django.db import transaction
 from rest_framework import serializers
 
+from account.serializers import AccountDetailSerializer
+from campaign.serializers import CampaignDetailSerializer
 from common.serializers import BaseDetailSerializer, BaseSerializer
+from contact.serializers import ContactDetailSerializer
+from deal.serializers import DealDetailSerializer
+from lead.serializers import LeadDetailSerializer
 from meeting.models import Meeting, MeetingParticipant
 
 
@@ -66,6 +71,11 @@ class MeetingSerializer(BaseSerializer):
 
 class MeetingDetailSerializer(BaseDetailSerializer):
     participants = serializers.SerializerMethodField()
+    related_deal = DealDetailSerializer(read_only=True)
+    related_lead = LeadDetailSerializer(read_only=True)
+    related_account = AccountDetailSerializer(read_only=True)
+    related_campaign = CampaignDetailSerializer(read_only=True)
+    related_contact = ContactDetailSerializer(read_only=True)
 
     class Meta:
         model = Meeting
