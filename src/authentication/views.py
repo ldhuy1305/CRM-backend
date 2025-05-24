@@ -2,6 +2,7 @@ import json
 from base64 import urlsafe_b64decode, urlsafe_b64encode
 from datetime import datetime, timedelta
 
+import cloudinary.uploader
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponseRedirect
@@ -24,6 +25,7 @@ from utilities.permissions.custom_permissions import CustomPermission, IsAuthent
 
 from .models import User
 from .serializers import (
+    AvatarSerializer,
     ChangePasswordSerializer,
     ListUserSerializer,
     LoginSerializer,
@@ -290,3 +292,41 @@ class MeAPIView(views.APIView):
             data=serializer.data,
             status=status.HTTP_200_OK,
         )
+
+
+class UploadAvatarAPIView(views.APIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = AvatarSerializer
+
+    @swagger_auto_schema(request_body=AvatarSerializer)
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(
+            data=request.data, context={"request": request}
+        )
+        serializer.is_valid(raise_exception=True)
+
+        # Get the authenticated user
+        user = request.user
+
+        # Upload image to Cloudinary
+        try:
+            upload_result = cloudinary.uploader.upload(
+                serializer.validated_data["avatar"],
+                folder="avatars/",
+                resource_type="image",
+                use_filename=True,
+                unique_filename=False,
+            )
+            # Update user's avatar with Cloudinary URL
+            user.avatar = upload_result["secure_url"]
+            user.save()
+
+            return Response(
+                {"message": "Avatar uploaded successfully", "avatar_url": user.avatar},
+                status=status.HTTP_200_OK,
+            )
+        except Exception as e:
+            return Response(
+                {"message": f"Failed to upload avatar: {str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )

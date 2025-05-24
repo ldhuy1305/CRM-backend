@@ -18,13 +18,7 @@ from utilities.validate_password import validate_password
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = (
-            "id",
-            "first_name",
-            "last_name",
-            "address",
-            "phone",
-        )
+        fields = ("id", "first_name", "last_name", "address", "phone", "avatar")
 
 
 class ListUserSerializer(serializers.ModelSerializer):
@@ -38,6 +32,7 @@ class ListUserSerializer(serializers.ModelSerializer):
             "last_name",
             "address",
             "phone",
+            "avatar",
         )
         extra_kwargs = {
             "password": {"write_only": True},
@@ -305,3 +300,17 @@ class MeSerializer(serializers.Serializer):
         )
         data.update(permissions=PermissionSerializer(permissions, many=True).data)
         return data
+
+
+class AvatarSerializer(serializers.ModelSerializer):
+    avatar = serializers.ImageField(max_length=None, use_url=False)
+
+    def validate_avatar(self, value):
+        max_size = 5 * 1024 * 1024
+        if value.size > max_size:
+            raise serializers.ValidationError("Image file too large (max 5MB).")
+        return value
+
+    class Meta:
+        model = User
+        fields = ["avatar"]

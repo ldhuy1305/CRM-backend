@@ -14,6 +14,10 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+import cloudinary
+import cloudinary.api
+import cloudinary.uploader
+
 from utilities import config
 
 config.load()
@@ -77,6 +81,7 @@ INSTALLED_APPS = [
     "tag_item",
     "task",
     "fixtures",
+    "cloudinary",
 ]
 
 MIDDLEWARE = [
@@ -222,3 +227,12 @@ LOGIN_TIME = int(os.getenv("LOGIN_TIME", "5"))
 CORS_ALLOW_ALL_ORIGINS = True
 
 DEFAULT_AVATAR = os.getenv("DEFAULT_AVATAR", "")
+
+# Cloudinary config
+
+
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
+)
