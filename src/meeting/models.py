@@ -23,11 +23,21 @@ class Meeting(BaseModel):
     is_all_day = models.BooleanField(default=False)
     is_online_meeting = models.BooleanField(default=False)
 
-    related_lead = models.ForeignKey(Lead, on_delete=models.SET_NULL, null=True, blank=True)
-    related_contact = models.ForeignKey(Contact, on_delete=models.SET_NULL, null=True, blank=True)
-    related_account = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True)
-    related_campaign = models.ForeignKey(Campaign, on_delete=models.SET_NULL, null=True, blank=True)
-    related_deal = models.ForeignKey(Deal, on_delete=models.SET_NULL, null=True, blank=True)
+    related_lead = models.ForeignKey(
+        Lead, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    related_contact = models.ForeignKey(
+        Contact, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    related_account = models.ForeignKey(
+        Account, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    related_campaign = models.ForeignKey(
+        Campaign, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    related_deal = models.ForeignKey(
+        Deal, on_delete=models.SET_NULL, null=True, blank=True
+    )
 
     class Meta:
         ordering = ["-id"]

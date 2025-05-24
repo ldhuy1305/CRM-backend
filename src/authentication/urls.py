@@ -11,6 +11,7 @@ from .views import (
     ResendCodeAPIView,
     ResetPasswordAPIView,
     SetNewPasswordAPIView,
+    UploadAvatarAPIView,
     UserViewSet,
     VerifyCodeAPIView,
 )
@@ -41,4 +42,5 @@ urlpatterns = [
         MeAPIView.as_view(),
         name="password-reset-complete",
     ),
+    path("upload-avatar/", UploadAvatarAPIView.as_view(), name="upload_avatar"),
 ]

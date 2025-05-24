@@ -37,6 +37,7 @@ class CampaignViewSet(SortAndFilterViewSet):
             return CampaignSerializer
         if self.action in ["add"]:
             return CampaignTargetSerializer
+        return CampaignDetailSerializer
 
     def get_queryset(self):
         return Campaign.objects.all()
