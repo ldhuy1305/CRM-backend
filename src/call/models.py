@@ -69,6 +69,21 @@ class Call(BaseModel):
     start_time = models.DateTimeField()
     duration = models.IntegerField()
 
+    SEARCH_FIELDS_CONTAINS = dict(
+        title="title",
+    )
+
+    SEARCH_FIELDS = dict(
+        type="call_type",
+        account="related_account",
+        contact="contact",
+        owner="call_owner",
+    )
+
+    SEARCH_FIELDS_CUSTOM = dict(
+        start_time="start_time__date",
+    )
+
     class Meta:
         ordering = ["-id"]
         db_table = "call"
