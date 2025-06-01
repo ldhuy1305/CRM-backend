@@ -39,6 +39,16 @@ class Meeting(BaseModel):
         Deal, on_delete=models.SET_NULL, null=True, blank=True
     )
 
+    SEARCH_FIELDS_CONTAINS = dict(
+        title="title",
+    )
+
+    SEARCH_FIELDS = dict(host="host", is_online="is_online_meeting")
+
+    SEARCH_FIELDS_CUSTOM = dict(
+        start_time="from_datetime__date",
+    )
+
     class Meta:
         ordering = ["-id"]
         db_table = "meeting"

@@ -28,6 +28,11 @@ class SortAndFilterViewSet(viewsets.ModelViewSet):
                 if self.model and getattr(self.model, "SEARCH_FIELDS_CONTAINS", None)
                 else {}
             ),
+            search_fields_custom=(
+                self.model.SEARCH_FIELDS_CUSTOM
+                if self.model and getattr(self.model, "SEARCH_FIELDS_CUSTOM", None)
+                else {}
+            ),
             query_params=request.query_params,
         )
 
@@ -46,6 +51,7 @@ class SortAndFilterViewSet(viewsets.ModelViewSet):
         queryset: QuerySet,
         search_fields: dict,
         search_fields_contains: dict,
+        search_fields_custom: dict,
         query_params,
     ) -> QuerySet:
         filters = {}
@@ -57,6 +63,10 @@ class SortAndFilterViewSet(viewsets.ModelViewSet):
         for key, value in search_fields_contains.items():
             if key in query_params:
                 filters[f"{value}__icontains"] = query_params[key]
+
+        for key, value in search_fields_custom.items():
+            if key in query_params:
+                filters[value] = query_params[key]
 
         return queryset.filter(Q(**filters))
 
