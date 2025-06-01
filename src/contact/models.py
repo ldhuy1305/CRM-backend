@@ -71,7 +71,8 @@ class Contact(BaseModel):
         ordering = ["-id"]
         db_table = "contact"
 
-    def get_full_name(self):
+    @property
+    def full_name(self):
         try:
             full_name = f"{self.last_name} {self.first_name}"
         except AttributeError:

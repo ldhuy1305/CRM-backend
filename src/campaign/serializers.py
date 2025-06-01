@@ -83,7 +83,7 @@ class CampaignTargetLeadDetailSerializer(serializers.ModelSerializer):
         ]
 
     def get_name(self, obj):
-        return obj.get_full_name()
+        return obj.full_name
 
 
 class CampaignTargetContactDetailSerializer(serializers.ModelSerializer):
@@ -102,11 +102,11 @@ class CampaignTargetContactDetailSerializer(serializers.ModelSerializer):
 
     def get_contact_owner(self, obj):
         if obj.contact_owner:
-            return obj.contact_owner.get_full_name()
+            return obj.contact_owner.full_name
         return None
 
     def get_name(self, obj):
-        return obj.get_full_name()
+        return obj.full_name
 
 
 class CampaignTargetDetailSerializer(serializers.Serializer):

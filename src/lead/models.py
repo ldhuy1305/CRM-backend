@@ -82,6 +82,7 @@ class Lead(BaseModel, CustomModel):
         db_table = "lead"
         app_label = "lead"
 
+    @property
     def get_full_name(self):
         try:
             full_name = f"{self.last_name} {self.first_name}"
