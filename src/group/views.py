@@ -1,12 +1,17 @@
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, Permission
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from api.constants import ModuleEnum
 from authentication.models import User
-from group.serializers import GroupDetailSerializer, GroupSerializer
-from utilities.permissions.custom_permissions import CustomPermission
+from group.serializers import (
+    GroupDetailSerializer,
+    GroupSerializer,
+    PermissionSerializer,
+)
+from utilities.permissions.custom_permissions import CustomPermission, IsAuthenticated
 
 
 # Create your views here.
@@ -19,6 +24,8 @@ class GroupViewSet(viewsets.ModelViewSet):
             return GroupDetailSerializer
         if self.action in ["create", "update"]:
             return GroupSerializer
+        if self.action in ["get_all_permissions"]:
+            return PermissionSerializer
         return GroupDetailSerializer
 
     def get_queryset(self):
@@ -86,6 +93,33 @@ class GroupViewSet(viewsets.ModelViewSet):
         users = User.objects.filter(id__in=user_ids)
         instance.user_set.add(*users)
         return Response(GroupDetailSerializer(instance).data, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema()
+    @action(
+        detail=False,
+        methods=["get"],
+        url_path="permissions",
+        permission_classes=[IsAuthenticated],
+    )
+    def get_all_permissions(self, request, *args, **kwargs):
+        queryset = (
+            Permission.objects.all()
+            .select_related("content_type")
+            .order_by("content_type__app_label", "content_type__model")
+        )
+        valid_models = [module.value for module in ModuleEnum]
+
+        grouped = {}
+        for perm in queryset:
+            model = perm.content_type.model
+            if model in valid_models:
+                key = perm.content_type.model
+                if key not in grouped:
+                    grouped[key] = []
+                grouped[key].append(PermissionSerializer(perm).data)
+
+        result = [{"name": key, "permissions": perms} for key, perms in grouped.items()]
+        return Response(result)
 
     # @swagger_auto_schema()
     # @action(
