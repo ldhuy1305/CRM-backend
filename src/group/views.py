@@ -84,7 +84,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     @action(
         detail=False,
         methods=["post"],
-        url_path="(?P<pk>\d+)/assign-users",
+        url_path=r"(?P<pk>\d+)/assign-users",
     )
     def assign_users(self, request, *args, **kwargs):
         user_ids = request.data.get("user_ids", None)
