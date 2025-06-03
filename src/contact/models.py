@@ -67,6 +67,15 @@ class Contact(BaseModel):
         contact_owner="contact_owner",
     )
 
+    EXCEL_HEADERS = [
+        ("name", "Contact Name"),
+        ("phone", "Phone"),
+        ("website", "Website"),
+        ("phone", "Phone"),
+        ("industry.name", "Industry"),
+        ("account_owner.full_name", "Owner"),
+    ]
+
     class Meta:
         ordering = ["-id"]
         db_table = "contact"

@@ -8,14 +8,14 @@ from account.serializers import (
     AccountTypeSerializer,
     RatingSerializer,
 )
-from common.views import ListAPI, SortAndFilterViewSet
+from common.views import ListAPI, SortAndFilterViewSet, ExcelExportViewSet
 from contact.models import Contact
 from utilities.permissions.custom_permissions import CustomPermission
 
 # Create your views here.
 
 
-class AccountViewSet(SortAndFilterViewSet):
+class AccountViewSet(SortAndFilterViewSet, ExcelExportViewSet):
     http_method_names = ["get", "post", "put", "delete"]
     permission_classes = [CustomPermission]
     model = Account

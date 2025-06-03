@@ -72,6 +72,14 @@ class Account(BaseModel):
     SEARCH_FIELDS = dict(
         account_owner="account_owner",
     )
+    EXCEL_HEADERS = [
+        ("name", "Account Name"),
+        ("phone", "Phone"),
+        ("website", "Website"),
+        ("phone", "Phone"),
+        ("industry.name", "Industry"),
+        ("account_owner.full_name", "Owner"),
+    ]
 
     class Meta:
         ordering = ["-id"]
