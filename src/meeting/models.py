@@ -47,6 +47,7 @@ class Meeting(BaseModel):
 
     SEARCH_FIELDS_CUSTOM = dict(
         start_time="from_datetime__date",
+        end_time="to_datetime__date",
     )
 
     class Meta:
