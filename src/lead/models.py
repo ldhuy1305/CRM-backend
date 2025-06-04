@@ -57,12 +57,6 @@ class Lead(BaseModel, CustomModel):
 
     description = models.TextField(null=True, blank=True)
 
-    #
-    # SEARCH_FIELDS = {
-    #
-    #     "annual_revenue": ,
-    # }
-
     SEARCH_FIELDS_CONTAINS = dict(
         first_name="first_name",
         last_name="last_name",
@@ -77,12 +71,28 @@ class Lead(BaseModel, CustomModel):
     )
     SORT_BY = ["first_name", "last_name", "company_name", "email"]
 
+    EXCEL_HEADERS = [
+        ("full_name", "Lead Name"),
+        ("company_name", "Company"),
+        ("email", "Email"),
+        ("phone", "Phone"),
+        ("street", "Street"),
+        ("city", "City"),
+        ("state_province", "State"),
+        ("postal_code", "Zip Code"),
+        ("lead_status.name", "Status"),
+        ("lead_source.name", "Source"),
+        ("industry.name", "Industry"),
+        ("lead_owner.full_name", "Owner"),
+    ]
+
     class Meta:
         ordering = ["-id"]
         db_table = "lead"
         app_label = "lead"
 
-    def get_full_name(self):
+    @property
+    def full_name(self):
         try:
             full_name = f"{self.last_name} {self.first_name}"
         except AttributeError:

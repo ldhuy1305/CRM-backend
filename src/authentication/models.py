@@ -42,7 +42,8 @@ class User(AbstractBaseUser, PermissionsMixin, TimestampedModel):
             "access": str(refresh.access_token),
         }
 
-    def get_full_name(self):
+    @property
+    def full_name(self):
         try:
             full_name = f"{self.last_name} {self.first_name}"
         except AttributeError:

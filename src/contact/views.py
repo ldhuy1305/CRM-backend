@@ -1,7 +1,7 @@
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 
-from common.views import SortAndFilterViewSet
+from common.views import SortAndFilterViewSet, ExcelExportViewSet
 from contact.models import Contact
 from contact.serializers import ContactDetailSerializer, ContactSerializer
 from utilities.permissions.custom_permissions import CustomPermission
@@ -9,7 +9,7 @@ from utilities.permissions.custom_permissions import CustomPermission
 # Create your views here.
 
 
-class ContactViewSet(SortAndFilterViewSet):
+class ContactViewSet(SortAndFilterViewSet, ExcelExportViewSet):
     http_method_names = ["get", "post", "put", "delete"]
     permission_classes = [CustomPermission]
     model = Contact

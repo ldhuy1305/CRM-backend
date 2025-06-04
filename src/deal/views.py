@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from common.views import ListAPI, SortAndFilterViewSet
+from common.views import ListAPI, SortAndFilterViewSet, ExcelExportViewSet
 from deal.models import Deal, Stage
 from deal.serializers import (
     DealDetailSerializer,
@@ -16,7 +16,7 @@ from utilities.permissions.custom_permissions import CustomPermission
 # Create your views here.
 
 
-class DealViewSet(SortAndFilterViewSet):
+class DealViewSet(SortAndFilterViewSet, ExcelExportViewSet):
     http_method_names = ["get", "post", "put", "delete"]
     permission_classes = [CustomPermission]
     model = Deal

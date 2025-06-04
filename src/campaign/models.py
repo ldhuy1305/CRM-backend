@@ -58,6 +58,16 @@ class Campaign(BaseModel):
         campaign_owner="campaign_owner",
     )
 
+    EXCEL_HEADERS = [
+        ("name", "Campaign Name"),
+        ("campaign_type.name", "Type"),
+        ("start_date__date", "Start Date"),
+        ("end_date__date", "End Date"),
+        ("expected_revenue", "Expected Revenue"),
+        ("actual_cost", "Actual Revenue"),
+        ("campaign_owner.full_name", "Owner"),
+    ]
+
     class Meta:
         ordering = ["-id"]
         db_table = "campaign"

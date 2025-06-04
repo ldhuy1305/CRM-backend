@@ -88,6 +88,6 @@ class MeetingDetailSerializer(BaseDetailSerializer):
         for participant in participants:
             user = participant.user or participant.lead or participant.contact
             if user:
-                result.append({"name": user.get_full_name(), "email": user.email})
+                result.append({"name": user.full_name, "email": user.email})
 
         return result

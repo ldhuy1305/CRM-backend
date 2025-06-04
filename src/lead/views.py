@@ -3,7 +3,7 @@ from rest_framework import generics, status, views, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from common.views import ListAPI, SortAndFilterViewSet
+from common.views import ExcelExportViewSet, ListAPI, SortAndFilterViewSet
 from lead.models import Industry, Lead, LeadSource, LeadStatus
 from lead.serializers import (
     ConvertSerializer,
@@ -18,7 +18,7 @@ from utilities.permissions.custom_permissions import CustomPermission, IsAuthent
 # Create your views here.
 
 
-class LeadViewSet(SortAndFilterViewSet):
+class LeadViewSet(SortAndFilterViewSet, ExcelExportViewSet):
     http_method_names = ["get", "post", "put", "delete"]
     permission_classes = [CustomPermission]
     model = Lead

@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework.response import Response
 
-from common.views import SortAndFilterViewSet
+from common.views import SortAndFilterViewSet, ExcelExportViewSet
 from meeting.models import Meeting
 from meeting.serializers import MeetingDetailSerializer, MeetingSerializer
 from utilities.permissions.custom_permissions import CustomPermission
@@ -9,7 +9,7 @@ from utilities.permissions.custom_permissions import CustomPermission
 # Create your views here.
 
 
-class MeetingViewSet(SortAndFilterViewSet):
+class MeetingViewSet(SortAndFilterViewSet, ExcelExportViewSet):
     http_method_names = ["get", "post", "put", "delete"]
     permission_classes = [CustomPermission]
     model = Meeting

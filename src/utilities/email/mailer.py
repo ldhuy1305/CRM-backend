@@ -16,7 +16,7 @@ def _send_mail(subject, template, emails, merge_data):
 
 
 def send_invited_email(user: User, url):
-    merge_data = {"full_name": user.get_full_name(), "url": url}
+    merge_data = {"full_name": user.full_name(), "url": url}
     subject = "Chào mừng đến với chúng tôi"
     _send_mail(subject, "emails/invited_email.html", [user.email], merge_data)
     return True
@@ -26,7 +26,7 @@ def send_verify_login(user: User, verify_code: UserVerifyCode):
     subject = "Xác thực 2FA"
     merge_data = {
         "code": verify_code.code,
-        "full_name": user.get_full_name(),
+        "full_name": user.full_name,
         "expire_time": settings.TOKEN_EXPIRE,
     }
     _send_mail(subject, "emails/send_code_login.html", [user.email], merge_data)
@@ -39,7 +39,7 @@ def send_password_reset_email(user, current_site, relative_link):
     print(link)
     merge_data = {
         "link": link,
-        "fullname": user.get_full_name(),
+        "fullname": user.full_name,
     }
     _send_mail(
         subject,

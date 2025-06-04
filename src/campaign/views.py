@@ -16,7 +16,7 @@ from campaign.serializers import (
     CampaignTypeSerializer,
 )
 from campaign_target.models import CampaignTarget
-from common.views import ListAPI, SortAndFilterViewSet
+from common.views import ListAPI, SortAndFilterViewSet, ExcelExportViewSet
 from contact.models import Contact
 from lead.models import Lead
 from lead.serializers import LeadDetailSerializer, LeadSerializer
@@ -25,7 +25,7 @@ from utilities.permissions.custom_permissions import CustomPermission, IsAuthent
 # Create your views here.
 
 
-class CampaignViewSet(SortAndFilterViewSet):
+class CampaignViewSet(SortAndFilterViewSet, ExcelExportViewSet):
     http_method_names = ["get", "post", "put", "delete"]
     permission_classes = [CustomPermission]
     model = Campaign

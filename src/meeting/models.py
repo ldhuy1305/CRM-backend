@@ -50,6 +50,15 @@ class Meeting(BaseModel):
         end_time="to_datetime__date",
     )
 
+    EXCEL_HEADERS = [
+        ("title", "Title"),
+        ("location", "Location"),
+        ("host.full_name", "Host"),
+        ("from_datetime", "Start Time"),
+        ("to_datetime", "End Time"),
+        ("is_online_meeting", "Type"),
+    ]
+
     class Meta:
         ordering = ["-id"]
         db_table = "meeting"

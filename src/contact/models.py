@@ -67,11 +67,21 @@ class Contact(BaseModel):
         contact_owner="contact_owner",
     )
 
+    EXCEL_HEADERS = [
+        ("name", "Contact Name"),
+        ("phone", "Phone"),
+        ("website", "Website"),
+        ("phone", "Phone"),
+        ("industry.name", "Industry"),
+        ("account_owner.full_name", "Owner"),
+    ]
+
     class Meta:
         ordering = ["-id"]
         db_table = "contact"
 
-    def get_full_name(self):
+    @property
+    def full_name(self):
         try:
             full_name = f"{self.last_name} {self.first_name}"
         except AttributeError:
