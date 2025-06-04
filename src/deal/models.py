@@ -71,6 +71,16 @@ class Deal(BaseModel):
         campaign_owner="campaign_owner",
     )
 
+    EXCEL_HEADERS = [
+        ("name", "Deal Name"),
+        ("amount", "Amount"),
+        ("stage.name", "Stage"),
+        ("close_date__date", "Close Date"),
+        ("account.full_name", "Account"),
+        ("contact.full_name", "Contact"),
+        ("deal_owner.full_name", "Owner"),
+    ]
+
     class Meta:
         ordering = ["-id"]
         db_table = "deal"
