@@ -80,7 +80,7 @@ class TaskViewSet(SortAndFilterViewSet):
     @action(
         detail=False,
         methods=["put"],
-        url_path="(?P<pk>\d+)/complete",
+        url_path=r"(?P<pk>\d+)/complete",
     )
     def complete(self, request, *args, **kwargs):
         instance = self.get_object()
