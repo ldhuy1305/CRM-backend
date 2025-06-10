@@ -16,7 +16,7 @@ def _send_mail(subject, template, emails, merge_data):
 
 
 def send_invited_email(user: User, url):
-    merge_data = {"full_name": user.full_name(), "url": url}
+    merge_data = {"full_name": user.full_name, "url": url}
     subject = "Chào mừng đến với chúng tôi"
     _send_mail(subject, "emails/invited_email.html", [user.email], merge_data)
     return True
