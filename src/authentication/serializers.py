@@ -295,6 +295,9 @@ class MeSerializer(serializers.Serializer):
 
         user = self.context["request"].user
         data = UserSerializer(user).data
+        groups = user.groups.all()
+        data["groups"] = [{"id": group.id, "name": group.name} for group in groups]
+
         permissions = user.user_permissions.all() | Permission.objects.filter(
             group__user=user
         )
