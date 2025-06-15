@@ -17,7 +17,7 @@ def _send_mail(subject, template, emails, merge_data):
 
 def send_invited_email(user: User, url):
     merge_data = {"full_name": user.full_name, "url": url}
-    subject = "Chào mừng đến với chúng tôi"
+    subject = "Welcome to UniBeam"
     _send_mail(subject, "emails/invited_email.html", [user.email], merge_data)
     return True
 
@@ -33,12 +33,10 @@ def send_verify_login(user: User, verify_code: UserVerifyCode):
     return True
 
 
-def send_password_reset_email(user, current_site, relative_link):
-    subject = "Làm mới mật khẩu"
-    link = "http://" + current_site + relative_link
-    print(link)
+def send_password_reset_email(user,url):
+    subject = "Reset your password"
     merge_data = {
-        "link": link,
+        "link": url,
         "fullname": user.full_name,
     }
     _send_mail(

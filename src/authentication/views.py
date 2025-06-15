@@ -230,12 +230,14 @@ class ResetPasswordAPIView(views.APIView):
         token = token_generator.make_token(user)
         uidb64 = urlsafe_base64_encode(smart_bytes(user.id))
 
-        current_site = get_current_site(request=request).domain
-        relative_link = reverse(
-            "password-reset-confirm",
-            kwargs={"uidb64": uidb64, "token": token},
-        )
-        send_password_reset_email(user, current_site, relative_link)
+        # current_site = get_current_site(request=request).domain
+        # relative_link = reverse(
+        #     "password-reset-confirm",
+        #     kwargs={"uidb64": uidb64, "token": token},
+        # )
+        url = f"{settings.WEBSITE_URL}/reset-password?uidb64={uidb64}&token={token}"
+
+        send_password_reset_email(user, url)
 
         return Response(
             {"message": "We have sent you a link to reset your password"},
@@ -252,11 +254,11 @@ class PasswordTokenCheckAPI(views.APIView):
 
             if not PasswordResetTokenGenerator().check_token(user, token):
                 return HttpResponseRedirect(
-                    settings.WEBSITE_URL + "/password-reset?token_valid=False"
+                    settings.WEBSITE_URL + "/reset-password?token_valid=False"
                 )
             return HttpResponseRedirect(
                 settings.WEBSITE_URL
-                + "/password-reset?token_valid=True&message=Credentials Valid&uidb64="
+                + "/reset-password?token_valid=True&uidb64="
                 + uidb64
                 + "&token="
                 + token
@@ -269,7 +271,7 @@ class PasswordTokenCheckAPI(views.APIView):
 class SetNewPasswordAPIView(generics.GenericAPIView):
     serializer_class = SetNewPasswordSerializer
 
-    def put(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response(
