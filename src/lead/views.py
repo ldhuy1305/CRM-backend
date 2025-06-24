@@ -97,7 +97,7 @@ class LeadSourceAPIView(ListAPI):
 
 
 class LeadStatusAPIView(ListAPI):
-    serializer_class = IndustrySerializer
+    serializer_class = LeadStatusSerializer
 
 
 class IndustryAPI(ListAPI):
